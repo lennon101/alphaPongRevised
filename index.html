@@ -1,0 +1,162 @@
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script>
+    window.onload = function(){
+        var canvas = document.getElementById("pongCanvas");
+        
+        if (canvas && canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+        }
+        
+        document.onkeydown = function(e) {
+            switch (e.keyCode) {
+                case 37:
+//                    alert('left');
+                    break;
+                case 38:
+//                    alert('up');
+                    paddle1y -= 10;
+                    break;
+                case 39:
+//                    alert('right');
+                    break;
+                case 40:
+                    paddle1y += 10;
+//                    alert('down');
+                    break;
+            }
+        };
+        
+        var ballx = 400;
+        var bally = 250;
+        
+        var y = 1;
+        var x = 1;
+        
+        var paddle1x = 10;
+        var paddle1y = 25;
+        var paddle1Length = 50;
+        var paddle1Width = 10;
+        
+        //STUB variables
+        var ballVelocity = 1;
+        var ballAngle = Math.floor(Math.random() * 360) + 1;
+//        document.writeln(ballAngle);
+        
+        
+//        ctx.strokeStyle = "#00FF00";
+//        ctx.fillStyle = "#00FF00";
+//        ctx.lineWidth = 5;
+//        ctx.beginPath();
+//        ctx.arc(ballx, bally, 8, 0, 2*Math.PI);
+//        ctx.fill();
+//        ctx.stroke(); 
+        
+        
+        
+        function draw(){
+            
+            //clearing the screen
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, 100000, 10000);
+            
+            //drawing the top wall
+            ctx.strokeStyle = "#00FF00";
+            ctx.fillStyle = "#00FF00";
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.fillRect(0, 0, 800, 20);
+            
+            //drawing the bottom wall
+            ctx.strokeStyle = "#00FF00";
+            ctx.fillStyle = "#00FF00";
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.fillRect(0, 480, 800, 20);
+            
+            //drawing the middle lines
+            for(var i=0; i < 500; i = i + 20){
+                ctx.strokeStyle = "#green";
+                ctx.fillStyle = "#green";
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                ctx.fillRect(400, i, 1, 10);
+            }
+            
+            //drawing the ball.
+            ctx.strokeStyle = "#00FF00";
+            ctx.fillStyle = "#00FF00";
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.arc(ballx, bally, 4, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.stroke(); 
+            
+            
+            //drawing paddle1
+            ctx.strokeStyle = "#00FF00";
+            ctx.fillStyle = "#00FF00";
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.fillRect(paddle1x, paddle1y, paddle1Width, paddle1Length);
+            
+            
+            //drawing paddle2
+        }
+        
+        function game(){
+//            document.writeln("game is being called");
+            if((ballx <= 0) || (ballx >= 800)){
+//                alert("ball hit x boundaries");
+                reflectBallx();
+            }
+            
+            if((bally <= 20) || (bally >= 480)){
+//                alert("ball hit y boundaries");
+                reflectBally();
+            }
+            
+            //ball detection with paddle
+            if(ballx <= (paddle1x + paddle1Width) && (bally >= paddle1y && bally <= (paddle1y + paddle1Length))){
+                reflectBallx();
+//                alert("ball touched");
+            }
+            
+            changeBallx();
+            changeBally();
+            
+            draw();
+            
+        }
+        
+        function changeBallx(){
+            ballx = ballx + (x * ballVelocity * Math.cos(ballAngle));
+//            document.writeln("ballx = " + ballx);
+        }
+        
+        function changeBally(){
+            bally = bally + (y * ballVelocity * Math.sin(ballAngle));
+//            document.writeln("bally = " + bally);
+        }
+        
+        function reflectBallx(){
+            x = x * -1;
+        }
+        
+        function reflectBally(){
+            y = y * -1
+        }
+        
+        setInterval(game, 5);
+    }
+    </script>
+    </head>
+    <body>
+        <h1>PONG Revised!!</h1>
+    <canvas id="pongCanvas" width="800" height="500">
+    Your browser does not support the HTML5 canvas.
+    </canvas>
+    </body>
+</html>
