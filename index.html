@@ -28,6 +28,9 @@
                     break;
             }
         };
+
+        var canvasHeight = ctx.canvas.height;
+        var canvasWidth = ctx.canvas.width; 
         
         var ballx = 400;
         var bally = 250;
@@ -67,14 +70,14 @@
             ctx.fillStyle = "#00FF00";
             ctx.lineWidth = 5;
             ctx.beginPath();
-            ctx.fillRect(0, 0, 800, 20);
+            ctx.fillRect(0, 0, canvasWidth, 20);
             
             //drawing the bottom wall
             ctx.strokeStyle = "#00FF00";
             ctx.fillStyle = "#00FF00";
             ctx.lineWidth = 5;
             ctx.beginPath();
-            ctx.fillRect(0, 480, 800, 20);
+            ctx.fillRect(0, canvasHeight-20, canvasWidth, 20);
             
             //drawing the middle lines
             for(var i=0; i < 500; i = i + 20){
@@ -122,6 +125,15 @@
             if(ballx <= (paddle1x + paddle1Width) && (bally >= paddle1y && bally <= (paddle1y + paddle1Length))){
                 reflectBallx();
 //                alert("ball touched");
+            }
+
+            //make sure paddle doesn't go off the screen
+            if (paddle1y < paddle1Length/2) {
+                paddle1y = paddle1Length/2;                
+            } 
+
+            if (paddle1y>canvasHeight-50 - paddle1Length/2){
+                paddle1y = canvasHeight-50 - paddle1Length/2;
             }
             
             changeBallx();
