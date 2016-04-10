@@ -1,6 +1,23 @@
 <html>
 <head>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: black;
+            text-align: center;
+        }
+        #pongCanvas {
+            background-color: black;
+            border: solid #00FF00;
+            top: 6.25%;
+        }
+        h1 {
+            color: #00FF00;
+            font-family: sans-serif;
+        }
+        p {
+            color: white;
+        }
+    </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script>
     window.onload = function(){
@@ -205,5 +222,20 @@
     <canvas id="pongCanvas" width="800" height="500">
     Your browser does not support the HTML5 canvas.
     </canvas>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script>
+            //these have to be in the body because they have to run after everything is loaded
+            (function() {
+                //socket connection
+                var socket = io();
+                
+                // test connection to server
+                socket.on('test', function(msg) {
+                    console.log(msg);
+                });
+                
+                
+            })();
+        </script>  
     </body>
 </html>
