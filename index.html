@@ -61,7 +61,7 @@
         var paddle1Width = 10;
         
         //STUB variables
-        var ballVelocity = 1;
+        var ballVelocity = 5;
         var ballAngle = Math.floor(Math.random() * 360) + 1;
 //        document.writeln(ballAngle);
         
@@ -74,6 +74,7 @@
 //        ctx.fill();
 //        ctx.stroke(); 
         
+        var tick = 1;
         
         
         function draw(){
@@ -168,6 +169,12 @@
             changeBally();
             
             draw();
+
+            ++tick;
+            if (tick == 500){
+            	tick = 1;
+            	console.log("ballx: " + ballx + " ; bally: " + bally);
+            }
             
         }
         
