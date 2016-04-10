@@ -29,6 +29,23 @@
             }
         };
 
+        var mousePos = null; 
+        var mousePosNew = null;
+        var message =  null;
+
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: Math.round((evt.clientX-rect.left)/(rect.right-rect.left)*canvasWidth),
+                y: Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvasHeight)
+            };
+        }
+
+        canvas.addEventListener('mousemove', function(evt) {
+            mousePos = getMousePos(canvas, evt);
+            message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+        }, false);
+
         var canvasHeight = ctx.canvas.height;
         var canvasWidth = ctx.canvas.width; 
         
@@ -105,11 +122,22 @@
             ctx.beginPath();
             ctx.fillRect(paddle1x, paddle1y, paddle1Width, paddle1Length);
             
+            //write the mouse positio on the canvas
+            ctx.font = '18pt Calibri';
+            ctx.fillStyle = '#00FF00';
+            ctx.fillText(message, 300,50);
             
             //drawing paddle2
         }
         
         function game(){
+            if (mousePos != null){
+                if (mousePosNew != mousePos){
+                    paddle1y = mousePos.y;
+                    mousePosNew =mousePos;
+                }
+            }
+
 //            document.writeln("game is being called");
             if((ballx <= 0) || (ballx >= 800)){
 //                alert("ball hit x boundaries");
@@ -132,8 +160,8 @@
                 paddle1y = paddle1Length/2;                
             } 
 
-            if (paddle1y>canvasHeight-50 - paddle1Length/2){
-                paddle1y = canvasHeight-50 - paddle1Length/2;
+            if (paddle1y>canvasHeight- paddle1Length - paddle1Length/2){
+                paddle1y = canvasHeight- paddle1Length - paddle1Length/2;
             }
             
             changeBallx();
