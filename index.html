@@ -67,6 +67,7 @@
             };
 
             var mousePos = null; 
+            var p2Pos = 25;
             var mousePosNew = null;
             var message =  null;
             var clientNumber = 1; // make get this from server
@@ -90,6 +91,7 @@
             
             socket.on('latency test', function(msg) {
                 console.log(msg);
+                p2Pos = msg;
             });
 
             var canvasHeight = ctx.canvas.height;
@@ -175,6 +177,12 @@
                 ctx.fillText(message, 300,50);
             
                 //drawing paddle2
+                ctx.strokeStyle = "#00FF00";
+                ctx.fillStyle = "#00FF00";
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                ctx.fillRect(canvasWidth - 10 - paddle1x, p2Pos, paddle1Width, paddle1Length);
+                
             }
         
             function game(){
