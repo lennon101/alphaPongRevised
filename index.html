@@ -88,9 +88,8 @@
                 socket.emit('player mouse position', {player: clientNumber, position: mousePos.y});
             }, false);
             
-            
+            // testing latency on the trip of client - server  - client
             socket.on('latency test', function(msg) {
-                console.log(msg);
                 p2Pos = msg;
             });
 
@@ -205,19 +204,32 @@
                 
                 }
             
-                //ball detection with paddle
+                //ball detection with paddles
                 if(ballx <= (paddle1x + paddle1Width) && (bally >= paddle1y && bally <= (paddle1y + paddle1Length))){
                     reflectBallx();
 //                  alert("ball touched");
                 }
-
-                //make sure paddle doesn't go off the screen
-                if (paddle1y < paddle1Length/2) {
-                    paddle1y = paddle1Length/2;                
+                
+                if(ballx >= (canvasWidth - 10 - paddle1x) && (bally >= p2Pos && bally <= (p2Pos + paddle1Length))){
+                    reflectBallx();
+//                  alert("ball touched");
+                }
+                
+                //make sure paddles doesn't go off the screen
+                if (paddle1y < paddle1Length / 2) {
+                    paddle1y = paddle1Length / 2;                
                 } 
+                
+                if (p2Pos < paddle1Length / 2) {
+                    p2Pos = paddle1Length / 2;                
+                }
 
-                if (paddle1y>canvasHeight- paddle1Length - paddle1Length/2){
-                    paddle1y = canvasHeight- paddle1Length - paddle1Length/2;
+                if (paddle1y > canvasHeight - paddle1Length - paddle1Length / 2){
+                    paddle1y = canvasHeight - paddle1Length - paddle1Length / 2;
+                }
+                
+                if (p2Pos > canvasHeight - paddle1Length - paddle1Length / 2){
+                    p2Pos = canvasHeight - paddle1Length - paddle1Length / 2;
                 }
             
                 changeBallx();
