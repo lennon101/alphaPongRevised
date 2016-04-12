@@ -19,7 +19,14 @@
         }
     </style>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <script>
+    </head>
+    <body>
+        <h1>PONG Revised!!</h1>
+    <canvas id="pongCanvas" width="800" height="500">
+    Your browser does not support the HTML5 canvas.
+    </canvas>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script>
     window.onload = function(){
         var canvas = document.getElementById("pongCanvas");
         
@@ -165,6 +172,7 @@
             if((bally <= 20) || (bally >= 480)){
 //                alert("ball hit y boundaries");
                 reflectBally();
+                
             }
             
             //ball detection with paddle
@@ -215,17 +223,8 @@
         
         setInterval(game, 5);
     }
-    </script>
-    </head>
-    <body>
-        <h1>PONG Revised!!</h1>
-    <canvas id="pongCanvas" width="800" height="500">
-    Your browser does not support the HTML5 canvas.
-    </canvas>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script>
-            //these have to be in the body because they have to run after everything is loaded
-            (function() {
+
+
                 //socket connection
                 var socket = io();
                 
@@ -235,7 +234,7 @@
                 });
                 
                 
-            })();
+
         </script>  
     </body>
 </html>
