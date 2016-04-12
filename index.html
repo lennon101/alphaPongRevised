@@ -105,7 +105,7 @@
         
             var paddle1x = 10;
             var paddle1y = 25;
-            var paddle1Length = 50;
+            var paddle1Length = 100;
             var paddle1Width = 10;
         
             //STUB variables
@@ -202,11 +202,19 @@
                 if((bally <= 20) || (bally >= 480)){
 //                  alert("ball hit y boundaries");
                     reflectBally();
-                
                 }
             
                 //ball detection with paddle
                 if(ballx <= (paddle1x + paddle1Width) && (bally >= paddle1y && bally <= (paddle1y + paddle1Length))){
+                    console.log("py: " + paddle1y + " bally: " + bally)
+                    if (bally < paddle1y + 1/3*paddle1Length){
+                        console.log("upper third hit")
+                    } else if ((bally > paddle1y + 1/3*paddle1Length) &&(bally < paddle1y + 2/3*paddle1Length)){
+                        console.log("middle third hit")
+                    } else{
+                        console.log("lower third hit")
+                    }
+
                     reflectBallx();
 //                  alert("ball touched");
                 }
