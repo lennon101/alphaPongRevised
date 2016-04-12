@@ -26,9 +26,20 @@
     <canvas id="pongCanvas" width="800" height="500">
     Your browser does not support the HTML5 canvas.
     </canvas>
-        
-        
     <script>
+        /* ----------------------SOCKET.IO CONNECTION------------------ */         
+        
+
+        var socket = io();
+                
+        // test connection to server
+        socket.on('test', function(msg) {
+            console.log(msg);
+        });
+        
+        
+        /* ---------------------CANVAS AND GAME-----------------------*/
+        
         window.onload = function(){
             var canvas = document.getElementById("pongCanvas");
         
@@ -58,6 +69,7 @@
             var mousePos = null; 
             var mousePosNew = null;
             var message =  null;
+            var clientNumber = 1; // make get this from server
 
             function getMousePos(canvas, evt) {
                 var rect = canvas.getBoundingClientRect();
@@ -70,7 +82,15 @@
             canvas.addEventListener('mousemove', function(evt) {
                 mousePos = getMousePos(canvas, evt);
                 message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+                
+                // sends mouse y position data to server
+                socket.emit('player mouse position', {player: clientNumber, position: mousePos.y});
             }, false);
+            
+            
+            socket.on('latency test', function(msg) {
+                console.log(msg);
+            });
 
             var canvasHeight = ctx.canvas.height;
             var canvasWidth = ctx.canvas.width; 
@@ -225,17 +245,6 @@
         
             setInterval(game, 5);
         }
-
-
-/* ----------------------SOCKET.IO----------------------------- */         
-        
-
-        var socket = io();
-                
-        // test connection to server
-        socket.on('test', function(msg) {
-            console.log(msg);
-        });
     </script>  
     </body>
 </html>
