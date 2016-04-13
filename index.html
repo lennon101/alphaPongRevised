@@ -31,7 +31,15 @@
         
 
         var socket = io();
-
+        var clientNumber = null;
+        
+        // test connection to server
+        socket.on('client number', function(msg) {
+            if (clientNumber == null) {
+                clientNumber = msg;
+            }
+        });
+        
         
         /* ---------------------CANVAS AND GAME-----------------------*/
         
@@ -61,11 +69,11 @@
                 }
             };
 
-            var mousePos = null; 
+            var mousePos = {y:0}; 
             var p2Pos = 25;
             var mousePosNew = null;
             var message =  null;
-            var clientNumber = 1; // make get this from server
+            
 
             function getMousePos(canvas, evt) {
                 var rect = canvas.getBoundingClientRect();
@@ -76,16 +84,17 @@
             }
 
             canvas.addEventListener('mousemove', function(evt) {
-                mousePos = getMousePos(canvas, evt);
-                message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+                message = 'Mouse position: ' + getMousePos(canvas, evt).y;
                 
                 // sends mouse y position data to server
-                socket.emit('player mouse position', {player: clientNumber, position: mousePos.y});
+                socket.emit('player mouse position', {player: clientNumber, position:getMousePos(canvas, evt).y});
             }, false);
             
-            // testing latency on the trip of client - server  - client
-            socket.on('latency test', function(msg) {
-                p2Pos = msg;
+            //gets paddle positions from server
+            socket.on('paddles position', function(msg) {
+                mousePos.y = msg.paddle1;
+                paddle1y = msg.paddle1;
+                p2Pos = msg.paddle2;
             });
 
             var canvasHeight = ctx.canvas.height;
@@ -239,6 +248,18 @@
                 changeBally();
             
                 draw();
+                
+                // testing
+                if (clientNumber == 1) {
+                    socket.emit('ball pos',{x:ballx, y:bally});
+                }
+                
+                socket.on('p2 ball pos', function(msg) {
+                    if (clientNumber > 1) {
+                        ballx = msg.x;
+                        bally = msg.y;
+                    }
+                })
 
                 ++tick;
                 if (tick == 500){
