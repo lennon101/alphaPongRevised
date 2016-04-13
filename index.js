@@ -12,7 +12,6 @@ app.get('/', function(req, res){
 
 // connection listener
 io.on('connection', function(socket){
-	io.emit('test', 'connected')
     
     socket.on('player mouse position', function(msg) {
         console.log("Player:" + msg.player + ": PosY: " + msg.position)
