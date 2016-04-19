@@ -30,4 +30,8 @@ function Paddle() {
     this.setColour = function(colour){
         this.colour = colour;
     }
+
+    this.makeP2Paddle = function() {
+      
+    }
 }
