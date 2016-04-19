@@ -1,6 +1,6 @@
 //Ball Class
 function Ball() {
-  this.xy = {x:0, y:0};
+  this.position = {x: 0, y: 0};
   this.direction = 0;
   this.move = function() {
 
@@ -14,4 +14,4 @@ function Ball() {
 };
 
 var ball = new Ball();
-console.log(ball.xy);
+console.log(ball.position.x);
