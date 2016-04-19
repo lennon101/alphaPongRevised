@@ -13,5 +13,6 @@ function Ball() {
   };
 };
 
+//testing ball class
 var ball = new Ball();
-console.log(ball.position.x);
+console.log(ball.position);
