@@ -2,13 +2,19 @@
 function Ball() {
   this.position = {x: 0, y: 0};
   this.direction = 0;
+
+  
   this.move = function() {
 
   };
+
+
   this.redirect = function() {
 
   };
-  this.draw = function() {
+
+
+  this.draw = function(ctx) {
 
   };
 };
