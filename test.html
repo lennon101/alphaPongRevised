@@ -43,7 +43,7 @@
                 ctx.fillStyle = "#000";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ball.draw(ctx);
-                ball.move();
+                //ball.move();
                 if (ball.position.x >= canvas.width || ball.position.x <= 0) {
                     ball.bounce("x");
                 } else if (ball.position.y >= canvas.height || ball.position.y <= 0) {

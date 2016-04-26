@@ -46,6 +46,7 @@ function Ball() {
     ctx.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
     ctx.fill();
     ctx.stroke();
+    this.move();
   };
 };
 
