@@ -1,12 +1,21 @@
 //Ball Class
 function Ball() {
+  this.initSpd = 4;
   this.position = {x: 0, y: 0};
-  this.velocity = {x: 2, y: -2};
+  this.velocity = {x: getV(this.initSpd), y: getV(this.initSpd)};
     
   this.colour = "#00FF00";                    
   this.lineWidth = 5
   this.radius = 4;
-
+    
+  //sets initial velocity
+  function getV(spd) {
+      startDir = Math.floor(Math.random() * 360);
+      rad = (Math.PI / 180) * (startDir  - 90);
+       return spd * Math.cos(rad);    
+  };
+      
+    
   //moves the ball in the direction specified by it's velocity vector
   this.move = function() {
     this.position.x += this.velocity.x;
