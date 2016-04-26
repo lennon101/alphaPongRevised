@@ -2,17 +2,17 @@
 function Ball() {
   this.initSpd = 4;
   this.position = {x: 0, y: 0};
-  this.velocity = {x: getV(this.initSpd), y: getV(this.initSpd)};
+  this.velocity = getV(this.initSpd);
     
   this.colour = "#00FF00";                    
   this.lineWidth = 5
   this.radius = 4;
     
-  //sets initial velocity
+  //sets initial random direction
   function getV(spd) {
       startDir = Math.floor(Math.random() * 360);
       rad = (Math.PI / 180) * (startDir  - 90);
-       return spd * Math.cos(rad);    
+      return {x: spd * Math.cos(rad), y: spd * Math.sin(rad)};    
   };
       
     
