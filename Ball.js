@@ -1,7 +1,7 @@
 //Ball Class
 function Ball() {
   this.position = {x: 0, y: 0};
-  this.velocity = {x: 2, y: 2};
+  this.velocity = {x: 2, y: -2};
     
   this.colour = "#00FF00";                    
   this.lineWidth = 5
@@ -40,6 +40,3 @@ function Ball() {
   };
 };
 
-//testing ball class
-var ball = new Ball();
-console.log(ball.position);

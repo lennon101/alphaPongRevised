@@ -20,6 +20,7 @@
     </style>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="Ball.js"></script>
     </head>
     <body>
         <h1>PONG Revised!!</h1>
@@ -27,14 +28,32 @@
     Your browser does not support the HTML5 canvas.
     </canvas>
     <script>
-        
         window.onload = function(){
             var canvas = document.getElementById("pongCanvas");
         
             if (canvas && canvas.getContext) {
                 var ctx = canvas.getContext("2d");
             }
+            var ball = new Ball();
+            console.log(ball.position);
+            ball.position.x = canvas.width / 2;
+            ball.position.y = canvas.height / 2;
+            
+            function game() {
+                ctx.fillStyle = "#000";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ball.draw(ctx);
+                ball.move();
+                if (ball.position.x >= canvas.width || ball.position.x <= 0) {
+                    ball.bounce("x");
+                } else if (ball.position.y >= canvas.height || ball.position.y <= 0) {
+                    ball.bounce("y");
+                }
+                requestAnimationFrame(game);
+            }
+            game();
         }
+        
         
     </script>  
     </body>
