@@ -1,4 +1,7 @@
-//Ball Class
+
+/**
+ * Ball Class
+ */
 function Ball() {
   this.initSpd = 4;
   this.position = {x: 0, y: 0};
@@ -7,22 +10,35 @@ function Ball() {
   this.colour = "#00FF00";                    
   this.lineWidth = 5
   this.radius = 4;
-    
-  //sets initial random direction
+
+  /**
+   * sets initial random direction
+   * 
+   * @param spd (description)
+   * @returns (description)
+   */
   function getV(spd) {
       startDir = Math.floor(Math.random() * 360);
       rad = (Math.PI / 180) * (startDir  - 90);
       return {x: spd * Math.cos(rad), y: spd * Math.sin(rad)};    
   };
       
-    
-  //moves the ball in the direction specified by it's velocity vector
+  /**
+   * moves the ball in the direction specified by it's velocity vector
+   */
+  /**
+   * (description)
+   */
   this.move = function() {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
   };
-
-  //bounces the ball with regards to an axis
+  
+  /**
+   * bounces the ball with regards to an axis
+   * 
+   * @param axis (description)
+   */
   this.bounce = function(axis) {
     if (axis === "x") {
         this.velocity.x = this.velocity.x * -1;
@@ -31,13 +47,19 @@ function Ball() {
     }
   };
     
-  //increases the speed of the ball
+  /**
+   * increases the speed of the ball
+   */
   this.increaseSpeed = function() {
       this.position.x += 1;
       this.position.y += 1;
   };
 
-
+  /**
+   * draws the ball
+   * 
+   * @param ctx the context of the canvas
+   */
   this.draw = function(ctx) {
     ctx.strokeStyle = this.colour;
     ctx.fillStyle = this.colour;
