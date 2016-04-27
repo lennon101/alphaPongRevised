@@ -1,12 +1,13 @@
 var socket = io("http://localhost:3000");
 var player = 1;
 
+//sets the player number
 socket.on('getPlayerNumber', function(msg) {
     player = msg;
     console.log(player);
 });
 
-        
+//variables that need to be global  
 var balls = [];
 var paddles = [new Paddle(), new Paddle()];
 var ctx;
