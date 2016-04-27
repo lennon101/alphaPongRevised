@@ -60,15 +60,15 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 paddle.draw(ctx);
                // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
-                if (paddle.hitTest(ball.position.x,ball.position.y)) {
-                   ball.bounce("x");
+                if (paddle.hitTest(ball.position.x, ball.position.y)) {
+                   ball.bounceX();
                 }
                 ball.draw(ctx);
                 //ball.move();
                 if (ball.position.x >= canvas.width || ball.position.x <= 0) {
-                    ball.bounce("x");
+                    ball.bounceX();
                 } else if (ball.position.y >= canvas.height || ball.position.y <= 0) {
-                    ball.bounce("y");
+                    ball.bounceY();
                 }
                 requestAnimationFrame(game);
             }
