@@ -15,27 +15,27 @@ var activeClients = [];
 io.on('connection', function (socket) {
 
     activeClients.push(socket);
-    
+
     //sends the player number to client
-    socket.emit("getPlayerNumber",activeClients.length); 
-    
+    socket.emit("getPlayerNumber", activeClients.length);
+
     //disconection listener NEEDS WORKING ON
     socket.on('disconnect', function () {
-        activeClients.splice(activeClients.indexOf(socket.id),1);
+        activeClients.splice(activeClients.indexOf(socket.id), 1);
     });
-    
+
     //sends the ball from client1 to other clients (allows spectating)
     activeClients[0].on("balls", function (balls) {
-        io.emit("ball",balls);
+        io.emit("ball", balls);
     });
-    
+
     //sends paddle data between clients
     socket.on("paddles", function (paddles) {
-        io.emit("paddles",paddles);
+        io.emit("paddles", paddles);
     });
 });
 
 //port listener
 http.listen(port, function () {
-	console.log('listening on *:' + port);
+    console.log('listening on *:' + port);
 });
