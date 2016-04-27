@@ -1,40 +1,10 @@
-<html>
-<head>
-    <style>
-        body {
-            background-color: black;
-            text-align: center;
-        }
-        #pongCanvas {
-            background-color: black;
-            border: solid #00FF00;
-            top: 6.25%;
-        }
-        h1 {
-            color: #00FF00;
-            font-family: sans-serif;
-        }
-        p {
-            color: white;
-        }
-    </style>
-    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    <script src="Ball.js"></script>
-    <script src="Paddle.js"></script>
-    </head>
-    <body>
-        <h1>PONG Revised!!</h1>
-    <canvas id="pongCanvas" width="800" height="500">
-    Your browser does not support the HTML5 canvas.
-    </canvas>
-    <script>
-        window.onload = function(){
+window.onload = function(){
             var canvas = document.getElementById("pongCanvas");
-        
             if (canvas && canvas.getContext) {
                 var ctx = canvas.getContext("2d");
             }
+            player = 1;
+            paddles = {p1: new Paddle(), p2: new Paddle()};
             var paddle = new Paddle();
             var ball = new Ball();
             ball.position = {x:canvas.width / 2, y: canvas.height / 2};
@@ -68,8 +38,3 @@
             }
             game();
         }
-        
-        
-    </script>  
-    </body>
-</html>
