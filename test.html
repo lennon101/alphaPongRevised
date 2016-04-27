@@ -60,7 +60,7 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 paddle.draw(ctx);
                // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
-                if (paddle.hitTest(ball)) {
+                if (paddle.hitTest(ball.position.x,ball.position.y)) {
                    ball.bounce("x");
                 }
                 ball.draw(ctx);

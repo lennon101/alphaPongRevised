@@ -34,6 +34,7 @@ function Ball() {
      * bounces the ball with regards to an axis
      * 
      * @param string to find which axis the ball is bouncing off
+     * @deprecated function is illogical to pass string as comparison. split into two separate methods for clarity
      */
     this.bounce = function (axis) {
         if (axis === "x") {
@@ -41,6 +42,20 @@ function Ball() {
         } else {
             this.velocity.y = this.velocity.y * -1;
         }
+    };
+    
+    /**
+     * bounce the ball in the x direction 
+     */
+    this.bounceX = function () {
+      this.velocity.x = this.velocity.x * -1;
+    };
+    
+    /**
+     * bounce the ball in the x direction 
+     */
+    this.bounceY = function () {
+      this.velocity.y = this.velocity.y * -1;
     };
     
     /**
