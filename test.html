@@ -57,6 +57,10 @@
                 ctx.fillStyle = "#000";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 paddle.draw(ctx);
+               // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
+                if (paddle.hitTest(ball)) {
+                   ball.bounce("x");
+                }
                 ball.draw(ctx);
                 //ball.move();
                 if (ball.position.x >= canvas.width || ball.position.x <= 0) {
