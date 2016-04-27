@@ -21,6 +21,7 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="Ball.js"></script>
+    <script src="Paddle.js"></script>
     </head>
     <body>
         <h1>PONG Revised!!</h1>
@@ -34,14 +35,27 @@
             if (canvas && canvas.getContext) {
                 var ctx = canvas.getContext("2d");
             }
+            var paddle = new Paddle();
             var ball = new Ball();
-            console.log(ball.position);
-            ball.position.x = canvas.width / 2;
-            ball.position.y = canvas.height / 2;
+            ball.position = {x:canvas.width / 2, y: canvas.height / 2};
+            
+            canvas.addEventListener('mousemove', function(evt) {
+                var rect = canvas.getBoundingClientRect();
+                paddle.position.y = Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height);
+                if (paddle.position.y < paddle.dimensions.length / 10) {
+                    paddle.position.y = paddle.dimensions.length / 10;
+                }
+                if (paddle.position.y > canvas.height - paddle.dimensions.length - paddle.dimensions.length / 10) {
+                    paddle.position.y = canvas.height - paddle.dimensions.length - paddle.dimensions.length / 10;
+                }
+                
+            });
+            
             
             function game() {
                 ctx.fillStyle = "#000";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+                paddle.draw(ctx);
                 ball.draw(ctx);
                 //ball.move();
                 if (ball.position.x >= canvas.width || ball.position.x <= 0) {

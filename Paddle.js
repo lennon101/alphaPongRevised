@@ -3,6 +3,7 @@ function Paddle() {
     this.player = 1;
     this.position = {x: 10, y: 25};
     this.dimensions = {length: 100, width: 10};
+    
     this.colour = '#00FF00';
     this.strokeLineWidth = 5;
 
