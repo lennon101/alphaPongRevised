@@ -6,8 +6,6 @@ socket.on('getPlayerNumber', function(msg) {
     console.log(player);
 });
 
-//socket.emit('test',"this Is Player1");
-
         
 var balls = [];
 var paddles = [new Paddle(), new Paddle()];
@@ -60,8 +58,6 @@ window.onload = function(){
             paddles[Paddle].position.y = canvas.height - paddles[Paddle].dimensions.length - paddles[Paddle].dimensions.length / 100;
         }
         socket.emit("paddles",paddles);
-        
-        
     });
             
             
@@ -79,6 +75,10 @@ window.onload = function(){
                 if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                     balls[i].bounceX();
                 }
+                //doesnt work yet
+                //if (paddles[1].hitTest(balls[i].position.x, balls[i].position.y)) {
+                //    balls[i].bounceX();
+                //}
                 balls[i].draw(ctx);
                     
                 if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
