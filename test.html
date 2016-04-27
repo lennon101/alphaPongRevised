@@ -35,6 +35,7 @@
             if (canvas && canvas.getContext) {
                 var ctx = canvas.getContext("2d");
             }
+            var paddles = {p1: new Paddle(), p2: new Paddle()};
             var paddle = new Paddle();
             var ball = new Ball();
 
