@@ -9,36 +9,33 @@ var activeClients = [];
 //io.emit - emmits to everyone
 //io.on receives 
 
-// connection listener
-io.on('connection', function(socket){
+//TODO: make it so that refreshing and crap doesnt fuck shit up
 
-    console.log(socket.id + " has connected");
+// connection listener
+io.on('connection', function (socket) {
+
     activeClients.push(socket);
     
+    //sends the player number to client
     socket.emit("getPlayerNumber",activeClients.length); 
     
-    socket.on('disconnect', function(){
-        console.log(socket.id + " has disconected");
+    //disconection listener NEEDS WORKING ON
+    socket.on('disconnect', function () {
         activeClients.splice(activeClients.indexOf(socket.id),1);
-        console.log(activeClients + " are active");
     });
     
+    //sends the ball from client1 to other clients (allows spectating)
     activeClients[0].on("balls", function (balls) {
         io.emit("ball",balls);
     });
     
+    //sends paddle data between clients
     socket.on("paddles", function (paddles) {
         io.emit("paddles",paddles);
     });
-    
 });
-
-
-
-
 
 //port listener
-http.listen(port, function(){
+http.listen(port, function () {
 	console.log('listening on *:' + port);
 });
-
