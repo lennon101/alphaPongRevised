@@ -29,7 +29,6 @@
     <script>
         /* ----------------------SOCKET.IO CONNECTION------------------ */         
         
-
         var socket = io();
         var clientNumber = null;
         
@@ -39,7 +38,6 @@
                 clientNumber = msg;
             }
         });
-        
         
         /* ---------------------CANVAS AND GAME-----------------------*/
         
@@ -104,31 +102,67 @@
             var bally = 250;
         
             var y = 1;
-            var x = 1;
-        
-            var paddle1x = 10;
-            var paddle1y = 25;
-            var paddle1Length = 100;
-            var paddle1Width = 10;
-        
-            //STUB variables
-            var ballVelocity = 3;
-            var ballAngle = Math.floor(Math.random() * 360) + 1;
-//          document.writeln(ballAngle);
-        
-        
-//          ctx.strokeStyle = "#00FF00";
-//          ctx.fillStyle = "#00FF00";
-//          ctx.lineWidth = 5;
-//          ctx.beginPath();
-//          ctx.arc(ballx, bally, 8, 0, 2*Math.PI);
-//          ctx.fill();
-//          ctx.stroke(); 
+            var x = 1;        
         
             var tick = 1;
+            
+            function Paddle(){
+                this.x = 10;
+                this.y = 25;
+                this.length = 100;
+                this.width = 10;
+
+                this.draw = function(ctx){
+                    //drawing paddle1
+                    ctx.strokeStyle = "#00FF00";
+                    ctx.fillStyle = "#00FF00";
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.fillRect(this.x, this.y, this.width, this.length);
+                }
+
+                this.move = function () {
+                    
+                }
+            }
+
+            function Ball(){
+                this.speed = 3;
+                this.angle = Math.floor(Math.random() * 360) + 1;
+
+                this.draw = function(ctx){
+                    //drawing the ball.
+                    ctx.strokeStyle = "#00FF00";
+                    ctx.fillStyle = "#00FF00";
+                    ctx.lineWidth = 5;
+                    ctx.beginPath();
+                    ctx.arc(ballx, bally, 4, 0, 2*Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                this.move = function () {
+                    // body...
+                }
+
+                function changeBallx(){
+                    ballx = ballx + (x * ballVelocity * Math.cos(ballAngle));
+                }
         
+                function changeBally(){
+                    bally = bally + (y * ballVelocity * Math.sin(ballAngle));
+                }
         
-            function draw(){
+                function reflectBallx(){
+                    x = x * -1;
+                }
+        
+                function reflectBally(){
+                    y = y * -1
+                }
+            }
+        
+            function draw(){                                                
             
                 //clearing the screen
                 ctx.fillStyle = "black";
@@ -156,23 +190,6 @@
                     ctx.beginPath();
                     ctx.fillRect(400, i, 1, 10);
                 }
-            
-                //drawing the ball.
-                ctx.strokeStyle = "#00FF00";
-                ctx.fillStyle = "#00FF00";
-                ctx.lineWidth = 5;
-                ctx.beginPath();
-                ctx.arc(ballx, bally, 4, 0, 2*Math.PI);
-                ctx.fill();
-                ctx.stroke(); 
-            
-            
-                //drawing paddle1
-                ctx.strokeStyle = "#00FF00";
-                ctx.fillStyle = "#00FF00";
-                ctx.lineWidth = 5;
-                ctx.beginPath();
-                ctx.fillRect(paddle1x, paddle1y, paddle1Width, paddle1Length);
             
                 //write the mouse positio on the canvas
                 ctx.font = '18pt Calibri';
@@ -267,24 +284,6 @@
             	   console.log("ballx: " + ballx + " ; bally: " + bally);
                 }
             
-            }
-        
-            function changeBallx(){
-                ballx = ballx + (x * ballVelocity * Math.cos(ballAngle));
-//              document.writeln("ballx = " + ballx);
-            }
-        
-            function changeBally(){
-                bally = bally + (y * ballVelocity * Math.sin(ballAngle));
-//              document.writeln("bally = " + bally);
-            }
-        
-            function reflectBallx(){
-                x = x * -1;
-            }
-        
-            function reflectBally(){
-                y = y * -1
             }
         
             setInterval(game, 5);
