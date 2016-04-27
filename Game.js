@@ -1,56 +1,99 @@
-   
-        var balls = [];
-        
-        window.onload = function(){
-            var canvas = document.getElementById("pongCanvas");
-        
-            if (canvas && canvas.getContext) {
-                var ctx = canvas.getContext("2d");
-            }
-            var paddles = {p1: new Paddle(), p2: new Paddle()};
-            var paddle = new Paddle();
-            //var ball = new Ball();
-            
-            for (var i = 0; i < 1; ++i){
-                balls.push(new Ball());
-                balls[i].position = {x:canvas.width / 2, y: canvas.height / 2};
-            }
+var socket = io("http://localhost:3000");
+var player = 1;
 
-            //controlls paddle position
-            canvas.addEventListener('mousemove', function(evt) {
-                var rect = canvas.getBoundingClientRect();
-                paddle.position.y = Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height);
-                //makes sure paddle doesn't go off screen
-                if (paddle.position.y < paddle.dimensions.length / 100) {
-                    paddle.position.y = paddle.dimensions.length / 100;
-                } else if (paddle.position.y > canvas.height - paddle.dimensions.length - paddle.dimensions.length / 100) {
-                    paddle.position.y = canvas.height - paddle.dimensions.length - paddle.dimensions.length / 100;
-                }
-            });
-            
-            
-            function game() {
-                ctx.fillStyle = "#000";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                paddle.draw(ctx);
-               // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
-                
-                for (var i = 0; i < balls.length; ++i){
-                    if (paddle.hitTest(balls[i].position.x, balls[i].position.y)) {
-                        balls[i].bounceX();
-                    }
-                    balls[i].draw(ctx);
-                    
-                    if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
-                        balls[i].bounceX();
-                    } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
-                        balls[i].bounceY();
-                    }
-                }
-                
-                //ball.move();
+socket.on('getPlayerNumber', function(msg) {
+    player = msg;
+    console.log(player);
+});
 
-                requestAnimationFrame(game);
-            }
-            game();
+//socket.emit('test',"this Is Player1");
+
+        
+var balls = [];
+var paddles = [new Paddle(), new Paddle()];
+var ctx;
+
+//very crude way of settings balls...
+socket.on("ball", function(ball) {
+    if (player > 1) {
+        //balls = [];
+        for (i = 0; i < ball.length; i++){
+            //balls[i] = new Ball();
+            balls[i].position = ball[i].position;
+            balls[i].velocity = ball[i].velocity;
         }
+    }
+});
+
+socket.on("paddles", function (paddlesS) {
+    paddles[0].position.y = paddlesS[0].position.y;
+    paddles[1].position.y = paddlesS[1].position.y;
+});
+        
+window.onload = function(){
+    var canvas = document.getElementById("pongCanvas");
+        
+    if (canvas && canvas.getContext) {
+        ctx = canvas.getContext("2d");
+    }
+    
+    paddles[1].position.x = canvas.width - 20;
+            
+    for (var i = 0; i < 1; ++i){
+        balls.push(new Ball());
+        balls[i].position = {x:canvas.width / 2, y: canvas.height / 2};
+    }
+
+    //controlls paddle position
+    canvas.addEventListener('mousemove', function(evt) {
+        if (player === 1) {
+            Paddle = 0;
+        } else if (player === 2) {
+            Paddle = 1;
+        }
+        var rect = canvas.getBoundingClientRect();
+        paddles[Paddle].position.y = Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height);
+        //makes sure paddle doesn't go off screen
+        if (paddles[Paddle].position.y < paddles[Paddle].dimensions.length / 100) {
+            paddles[Paddle].position.y = paddles[Paddle].dimensions.length / 100;
+        } else if (paddles[Paddle].position.y > canvas.height - paddles[Paddle].dimensions.length - paddles[Paddle].dimensions.length / 100) {
+            paddles[Paddle].position.y = canvas.height - paddles[Paddle].dimensions.length - paddles[Paddle].dimensions.length / 100;
+        }
+        socket.emit("paddles",paddles);
+        
+        
+    });
+            
+            
+    function game() {
+        //clears canvas
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        paddles[0].draw(ctx);
+        paddles[1].draw(ctx);
+        
+        
+        if (player === 1) {
+            socket.emit("balls",balls);
+            for (var i = 0; i < balls.length; ++i){
+                if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
+                    balls[i].bounceX();
+                }
+                balls[i].draw(ctx);
+                    
+                if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
+                    balls[i].bounceX();
+                } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
+                    balls[i].bounceY();
+                }
+            }
+        } else {
+             for (var i = 0; i < balls.length; ++i){
+                  balls[i].draw(ctx);
+             }
+        }
+       
+        requestAnimationFrame(game);
+    }
+    game();
+}

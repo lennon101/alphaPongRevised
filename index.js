@@ -1,39 +1,39 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
-//variables
 var port = 3000;
-var clients = 0;
-var p1 = 0;
-var p2 = 0;
+var activeClients = [];
 
-//forwards html to clients
-app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
-});
+//socket.io keys:
+//socket.emit - emits to only the specified client
+//io.emit - emmits to everyone
+//io.on receives 
 
 // connection listener
 io.on('connection', function(socket){
-    clients++;
-    io.emit('client number',clients);
+
+    console.log(socket.id + " has connected");
+    activeClients.push(socket);
     
+    socket.emit("getPlayerNumber",activeClients.length); 
     
-    socket.on('player mouse position', function(msg) {
-        console.log("Player:" + msg.player + ": PosY: " + msg.position)
-        if (msg.player == 1) {
-            p1 = msg.position;
-        } else if (msg.player == 2) {
-            p2 = msg.position;
-        }
-        
-        io.emit('paddles position',{paddle1: p1, paddle2: p2});
+    socket.on('disconnect', function(){
+        console.log(socket.id + " has disconected");
+        activeClients.splice(activeClients.indexOf(socket.id),1);
+        console.log(activeClients + " are active");
     });
     
-    socket.on('ball pos', function(msg) {
-        io.emit('p2 ball pos', msg);
-    })
+    activeClients[0].on("balls", function (balls) {
+        io.emit("ball",balls);
+    });
+    
+    socket.on("paddles", function (paddles) {
+        io.emit("paddles",paddles);
+    });
+    
 });
+
+
 
 
 
