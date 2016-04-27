@@ -52,10 +52,10 @@
                 var rect = canvas.getBoundingClientRect();
                 paddle.position.y = Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height);
                 //makes sure paddle doesn't go off screen
-                if (paddle.position.y < paddle.dimensions.length / 10) {
-                    paddle.position.y = paddle.dimensions.length / 10;
-                } else if (paddle.position.y > canvas.height - paddle.dimensions.length - paddle.dimensions.length / 10) {
-                    paddle.position.y = canvas.height - paddle.dimensions.length - paddle.dimensions.length / 10;
+                if (paddle.position.y < paddle.dimensions.length / 100) {
+                    paddle.position.y = paddle.dimensions.length / 100;
+                } else if (paddle.position.y > canvas.height - paddle.dimensions.length - paddle.dimensions.length / 100) {
+                    paddle.position.y = canvas.height - paddle.dimensions.length - paddle.dimensions.length / 100;
                 }
             });
             
