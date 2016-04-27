@@ -11,7 +11,7 @@
             var paddle = new Paddle();
             //var ball = new Ball();
             
-            for (var i = 0;i<5;++i){
+            for (var i = 0; i < 1; ++i){
                 balls.push(new Ball());
                 balls[i].position = {x:canvas.width / 2, y: canvas.height / 2};
             }
@@ -35,7 +35,7 @@
                 paddle.draw(ctx);
                // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
                 
-                for (var i = 0;i<5;++i){
+                for (var i = 0; i < balls.length; ++i){
                     if (paddle.hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
                     }
