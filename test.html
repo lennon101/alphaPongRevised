@@ -29,6 +29,9 @@
     Your browser does not support the HTML5 canvas.
     </canvas>
     <script>
+        
+        var balls = [];
+        
         window.onload = function(){
             var canvas = document.getElementById("pongCanvas");
         
@@ -37,11 +40,13 @@
             }
             var paddles = {p1: new Paddle(), p2: new Paddle()};
             var paddle = new Paddle();
-            var ball = new Ball();
+            //var ball = new Ball();
+            
+            for (var i = 0;i<5;++i){
+                balls.push(new Ball());
+                balls[i].position = {x:canvas.width / 2, y: canvas.height / 2};
+            }
 
-            ball.position = {x:canvas.width / 2, y: canvas.height / 2};
-            
-            
             //controlls paddle position
             canvas.addEventListener('mousemove', function(evt) {
                 var rect = canvas.getBoundingClientRect();
@@ -60,22 +65,27 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 paddle.draw(ctx);
                // if(paddle.hitTest(ball) || paddle2.hitTest(ball)){
-                if (paddle.hitTest(ball.position.x, ball.position.y)) {
-                   ball.bounceX();
+                
+                for (var i = 0;i<5;++i){
+                    if (paddle.hitTest(balls[i].position.x, balls[i].position.y)) {
+                        balls[i].bounceX();
+                    }
+                    balls[i].draw(ctx);
+                    
+                    if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
+                        balls[i].bounceX();
+                    } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
+                        balls[i].bounceY();
+                    }
                 }
-                ball.draw(ctx);
+                
                 //ball.move();
-                if (ball.position.x >= canvas.width || ball.position.x <= 0) {
-                    ball.bounceX();
-                } else if (ball.position.y >= canvas.height || ball.position.y <= 0) {
-                    ball.bounceY();
-                }
+
                 requestAnimationFrame(game);
             }
             game();
         }
-        
-        
+         
     </script>  
     </body>
 </html>
