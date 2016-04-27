@@ -1,14 +1,14 @@
 
 /**
- * (description)
+ * A ball class that controls velocity and draws the ball
  */
 function Ball() {
     "use strict";
     /**
      * sets initial random direction
      * 
-     * @param spd (description)
-     * @returns (description)
+     * @param spd the initial speed of the ball
+     * @returns the velocity (speed and direction) of the ball
      */
     function getV(spd) {
         var startDir = Math.floor(Math.random() * 360), rad = (Math.PI / 180) * (startDir  - 90);
@@ -31,9 +31,9 @@ function Ball() {
     };
 
     /**
-     * (description)
+     * bounces the ball with regards to an axis
      * 
-     * @param axis bounces the ball with regards to an axis
+     * @param string to find which axis the ball is bouncing off
      */
     this.bounce = function (axis) {
         if (axis === "x") {
