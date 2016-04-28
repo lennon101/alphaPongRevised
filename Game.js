@@ -2,6 +2,7 @@ var socket = io("http://localhost:3000");
 
 //variables
 var player = 1;
+var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
 var canvas;
 var balls = [];
@@ -23,6 +24,16 @@ socket.on("ball", function (ball) {
             balls[i].velocity = ball[i].velocity;
         }
     }
+});
+
+socket.on("play", function () {
+   console.log("p2 has joined");
+   play = true; 
+});
+
+socket.on("disconection", function (msg) {
+    play = false;
+    console.log("player " + (msg + 1) + " has disconected. please refresh page");
 });
 
 // very crude way of setting paddles...
@@ -71,38 +82,40 @@ window.onload = function () {
 
 
     function game() {
-        //clears canvas
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        paddles[0].draw(ctx);
-        paddles[1].draw(ctx);
+        if (play) {
+            //clears canvas
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            paddles[0].draw(ctx);
+            paddles[1].draw(ctx);
 
-        //p1 controls game logic
-        if (player === 1) {
-            socket.emit("balls", balls);
-            for (var i = 0; i < balls.length; ++i) {
-                if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
-                    balls[i].bounceX();
-                }
-                // bouncing off p2 paddle, doesnt work yet
-                if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
-                    balls[i].bounceX();
-                }
-                balls[i].draw(ctx);
+            //p1 controls game logic
+            if (player === 1) {
+                socket.emit("balls", balls);
+                for (var i = 0; i < balls.length; ++i) {
+                    if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
+                        balls[i].bounceX();
+                    }
+                    // bouncing off p2 paddle, doesnt work yet
+                    if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
+                        balls[i].bounceX();
+                    }
+                    balls[i].draw(ctx);
 
-                if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
-                    balls[i].bounceX();
-                } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
-                    balls[i].bounceY();
+                    if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
+                        balls[i].bounceX();
+                    } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
+                        balls[i].bounceY();
+                    }
                 }
-            }
-        } else {
-            for (var i = 0; i < balls.length; ++i) {
-                balls[i].draw(ctx);
+            } else {
+                for (var i = 0; i < balls.length; ++i) {
+                    balls[i].draw(ctx);
+                }
             }
         }
-
         requestAnimationFrame(game);
+
     }
     game();
 }

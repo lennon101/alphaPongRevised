@@ -18,10 +18,17 @@ io.on('connection', function (socket) {
 
     //sends the player number to client
     socket.emit("getPlayerNumber", activeClients.length);
+    if (activeClients.length === 2) {
+            io.emit("play",true);
+    }
 
     //disconection listener NEEDS WORKING ON
     socket.on('disconnect', function () {
+        if (activeClients.indexOf(socket) === 0 || activeClients.indexOf(socket) === 1) {
+            io.emit("disconection", activeClients.indexOf(socket));
+        }
         activeClients.splice(activeClients.indexOf(socket.id), 1);
+        
     });
 
     //sends the ball from client1 to other clients (allows spectating)
