@@ -53,6 +53,8 @@ window.onload = function () {
             Paddle = 0;
         } else if (player === 2) {
             Paddle = 1;
+        } else {
+            return;
         }
         var rect = canvas.getBoundingClientRect();
         paddles[Paddle].position.y = Math.round((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height);
@@ -83,9 +85,9 @@ window.onload = function () {
                     balls[i].bounceX();
                 }
                 // bouncing off p2 paddle, doesnt work yet
-                //if (paddles[1].hitTest(balls[i].position.x, balls[i].position.y)) {
-                //    balls[i].bounceX();
-                //}
+                if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
+                    balls[i].bounceX();
+                }
                 balls[i].draw(ctx);
 
                 if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
