@@ -26,11 +26,13 @@ socket.on("ball", function (ball) {
     }
 });
 
+//waits for p2 to join before playing (could also be used for pausing the game)
 socket.on("play", function () {
    console.log("p2 has joined");
    play = true; 
 });
 
+//pauses the game if either p1 or 2 disconnect
 socket.on("disconection", function (msg) {
     play = false;
     console.log("player " + (msg + 1) + " has disconected. please refresh page");
