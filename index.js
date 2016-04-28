@@ -18,7 +18,7 @@ io.on('connection', function (socket) {
 
     //sends the player number to client
     socket.emit("getPlayerNumber", activeClients.length);
-    if (activeClients.length === 2) {
+    if (activeClients.length >= 2) {
             io.emit("play",true);
     }
 
