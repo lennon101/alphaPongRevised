@@ -35,6 +35,11 @@ io.on('connection', function (socket) {
     activeClients[0].on("balls", function (balls) {
         io.emit("ball", balls);
     });
+    
+    //controls scoring
+    activeClients[0].on("hud", function (hud) {
+        io.emit("hud", hud);
+    });
 
     //sends paddle data between clients
     socket.on("paddles", function (paddles) {

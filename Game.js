@@ -44,6 +44,12 @@ socket.on("paddles", function (paddlesS) {
     paddles[0].position.y = paddlesS[0].position.y;
     paddles[1].position.y = paddlesS[1].position.y;
 });
+
+//controls the scores on p2
+socket.on("hud", function (newhud) {
+    hud.scores = newhud.scores;
+    hud.message = newhud.message;
+});
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 
 // main game function     
@@ -113,13 +119,15 @@ window.onload = function () {
                     if (balls[i].position.x >= canvas.width) {
                         hud.message = "Player 2 Lost"
                         hud.scores.p1 += 1;
+                        socket.emit("hud",hud);
                         makeBalls();
-
+                        
                     } else if (balls[i].position.x <= 0) {
                         hud.message = "Player 1 Lost"
                         hud.scores.p2 += 1;
+                        socket.emit("hud",hud);
                         makeBalls();
-
+                        
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY();
                     }
