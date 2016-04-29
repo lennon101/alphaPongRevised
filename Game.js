@@ -36,7 +36,8 @@ socket.on("play", function () {
 //pauses the game if either p1 or 2 disconnect
 socket.on("disconection", function (msg) {
     play = false;
-    console.log("player " + (msg + 1) + " has disconected. please refresh page");
+    hud.message = "player " + (msg + 1) + " disconected";
+    hud.draw(ctx);
 });
 
 // very crude way of setting paddles...
