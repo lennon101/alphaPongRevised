@@ -4,9 +4,10 @@ var socket = io("http://localhost:3000");
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
-var canvas;
+var canvas = document.getElementById("pongCanvas");
 var balls = [];
-var paddles = [new Paddle(), new Paddle()];
+var paddles = [new Paddle(), new Paddle(canvas.width - 20)];
+var hud;
 var ctx;
 
 /*---------------------------------------------SOCKET.IO---------------------------------*/
@@ -28,8 +29,8 @@ socket.on("ball", function (ball) {
 
 //waits for p2 to join before playing (could also be used for pausing the game)
 socket.on("play", function () {
-   console.log("p2 has joined");
-   play = true; 
+    console.log("p2 has joined");
+    play = true;
 });
 
 //pauses the game if either p1 or 2 disconnect
@@ -47,18 +48,21 @@ socket.on("paddles", function (paddlesS) {
 
 // main game function     
 window.onload = function () {
-    canvas = document.getElementById("pongCanvas");
 
     if (canvas && canvas.getContext) {
         ctx = canvas.getContext("2d");
     }
-    //sets the position of the paddle for p2
-    paddles[1].position.x = canvas.width - 20;
 
-    for (var i = 0; i < numOfBalls; ++i) {
-        balls.push(new Ball());
-        balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+    function makeBalls() {
+        balls = [];
+        for (var i = 0; i < numOfBalls; ++i) {
+            balls.push(new Ball());
+            balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+        }
     }
+    makeBalls();
+
+    hud = new HUD(canvas.width, canvas.height);
 
     //controlls paddle position
     canvas.addEventListener('mousemove', function (evt) {
@@ -90,6 +94,8 @@ window.onload = function () {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             paddles[0].draw(ctx);
             paddles[1].draw(ctx);
+            hud.draw(ctx);
+            hud.message = ""; //need a wait time for this... sometihng like a seccond
 
             //p1 controls game logic
             if (player === 1) {
@@ -98,14 +104,22 @@ window.onload = function () {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
                     }
-                    // bouncing off p2 paddle, doesnt work yet
+
                     if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
                     }
                     balls[i].draw(ctx);
 
-                    if (balls[i].position.x >= canvas.width || balls[i].position.x <= 0) {
-                        balls[i].bounceX();
+                    if (balls[i].position.x >= canvas.width) {
+                        hud.message = "Player 2 Lost"
+                        hud.scores.p1 += 1;
+                        makeBalls();
+
+                    } else if (balls[i].position.x <= 0) {
+                        hud.message = "Player 1 Lost"
+                        hud.scores.p2 += 1;
+                        makeBalls();
+
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY();
                     }

@@ -86,6 +86,3 @@ function Paddle(x) {
         return false;
     }
 };
-
-//testing Paddle class
-//var p = new Paddle();
