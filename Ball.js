@@ -18,7 +18,7 @@ function Ball() {
     this.initSpd = 4;
     this.position = {x: 0, y: 0};
     this.velocity = getV(this.initSpd);
-    this.colour = "#00FF00";
+    this.colour = "#FFF";
     this.lineWidth = 5;
     this.radius = 4;
     

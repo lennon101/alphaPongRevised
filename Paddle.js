@@ -2,13 +2,14 @@
 /**
  * A Paddle Class that controls a paddle and if anything hits it
  * 
- * @param x the x position of the paddle to define player 1 or player 2 
+ * @param x the x position of the paddle to define player 1 or player 2
+ * @param colour the colour of the paddle, default is "#00FF00" 
  */
-function Paddle(x) {
+function Paddle(x, colour) {
     this.player = 1;
     this.position = { x: (x) ? x : 10, y: 25 }; //if x is underfined it defaults to 10
     this.dimensions = { length: 100, width: 10 };
-    this.colour = '#00FF00';
+    this.colour = colour || '#FF0000';
     this.strokeLineWidth = 5;
 
     /**
