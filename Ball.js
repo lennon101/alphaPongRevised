@@ -11,17 +11,22 @@ function Ball() {
      * @returns the velocity (speed and direction) of the ball
      */
     function getV(spd) {
-        var startDir = Math.floor(Math.random() * 360), rad = (Math.PI / 180) * (startDir  - 90);
-        return {x: spd * Math.cos(rad), y: spd * Math.sin(rad)};
+        if (Math.floor(Math.random() * 100) + 1 <= 50) {
+            var startDir = (Math.random() * (90 + 30)) + 60;
+        } else {
+            var startDir = (Math.random() * ((180 + 90) + 30)) + (180 + 60);
+        }
+        var rad = (Math.PI / 180) * (startDir - 90);
+        return { x: spd * Math.cos(rad), y: spd * Math.sin(rad) };
     }
-    
+
     this.initSpd = 4;
-    this.position = {x: 0, y: 0};
+    this.position = { x: 0, y: 0 };
     this.velocity = getV(this.initSpd);
     this.colour = "#FFF";
     this.lineWidth = 5;
     this.radius = 4;
-    
+
     /**
      * moves the ball in the direction specified by it's velocity vector
      */
@@ -43,21 +48,21 @@ function Ball() {
             this.velocity.y = this.velocity.y * -1;
         }
     };
-    
+
     /**
      * bounce the ball in the x direction 
      */
     this.bounceX = function () {
-      this.velocity.x = this.velocity.x * -1;
+        this.velocity.x = this.velocity.x * -1;
     };
-    
+
     /**
      * bounce the ball in the x direction 
      */
     this.bounceY = function () {
-      this.velocity.y = this.velocity.y * -1;
+        this.velocity.y = this.velocity.y * -1;
     };
-    
+
     /**
      * increases the speed of the ball
      */

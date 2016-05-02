@@ -83,7 +83,8 @@ socket.on("paddles", function (paddlesS) {
  */
 socket.on("hud", function (newhud) {
     if (player > 1) {
-        hud.scores = newhud.scores;
+        hud.scores.p1 = newhud.scores.p1;
+        hud.scores.p2 = newhud.scores.p2;
         hud.message = newhud.message;
     }
 });
