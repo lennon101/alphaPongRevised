@@ -82,8 +82,10 @@ socket.on("paddles", function (paddlesS) {
  * receives the hud from p1 for p2
  */
 socket.on("hud", function (newhud) {
-    hud.scores = newhud.scores;
-    hud.message = newhud.message;
+    if (player > 1) {
+        hud.scores = newhud.scores;
+        hud.message = newhud.message;
+    }
 });
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 

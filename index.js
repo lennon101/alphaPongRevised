@@ -1,3 +1,6 @@
+/**
+ * SOCKET.IO server
+ */
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -11,18 +14,26 @@ var activeClients = [];
 
 //TODO: make it so that refreshing and crap doesnt fuck shit up
 
-// connection listener
+/**
+ * listens for a connection to the server
+ */
 io.on('connection', function (socket) {
 
     activeClients.push(socket);
 
-    //sends the player number to client
+    /**
+     * sends the client their player identifier
+     */
     socket.emit("getPlayerNumber", activeClients.length);
     if (activeClients.length >= 2) {
             io.emit("play",true);
     }
 
-    //disconection listener NEEDS WORKING ON
+    /**
+     * listens for a client disconection and removes them from active clients listen
+     * 
+     * problems: refreshing the page with more than one client connection stuffs everything up
+     */
     socket.on('disconnect', function () {
         if (activeClients.indexOf(socket) === 0 || activeClients.indexOf(socket) === 1) {
             io.emit("disconection", activeClients.indexOf(socket));
@@ -31,23 +42,33 @@ io.on('connection', function (socket) {
         
     });
 
-    //sends the ball from client1 to other clients (allows spectating)
+    /**
+     * listens for the ball objects from player 1 and sends them to all other clients
+     */
     activeClients[0].on("balls", function (balls) {
         io.emit("ball", balls);
     });
     
-    //controls scoring
+    /**
+     * listens for the hud object from player 1 and sends it to all other clients
+     */
     activeClients[0].on("hud", function (hud) {
         io.emit("hud", hud);
     });
 
-    //sends paddle data between clients
+    /**
+     * receives and sends paddle objects between all clients
+     * 
+     * TODO: simplify this so that the client doesnt have to distinguish them
+     */
     socket.on("paddles", function (paddles) {
         io.emit("paddles", paddles);
     });
 });
 
-//port listener
+/**
+ * listens for a request on the port
+ */
 http.listen(port, function () {
     console.log('listening on *:' + port);
 });
