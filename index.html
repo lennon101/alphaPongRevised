@@ -1,19 +1,25 @@
 <html>
+
 <head>
     <style>
+        @font-face { font-family: classicFont; src: url('font.ttf'); } 
+        
         body {
             background-color: black;
             text-align: center;
         }
+        
         #pongCanvas {
             background-color: black;
             border: solid #00FF00;
             top: 6.25%;
         }
+        
         h1 {
             color: #00FF00;
-            font-family: Consolas, monaco, monospace;
+            font-family: classicFont;
         }
+        
         p {
             color: white;
         }
@@ -23,12 +29,14 @@
     <script src="Ball.js"></script>
     <script src="Paddle.js"></script>
     <script src="HUD.js"></script>
-    </head>
-    <body>
-        <h1>PONG Revised!!</h1>
+</head>
+
+<body>
+    <h1>PONG Revised!!</h1>
     <canvas id="pongCanvas" width="800" height="500">
     Your browser does not support the HTML5 canvas.
     </canvas>
-    <script src="Game.js"></script>  
-    </body>
+    <script src="Game.js"></script>
+</body>
+
 </html>

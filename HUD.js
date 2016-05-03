@@ -10,8 +10,8 @@ function HUD(width, height) {
     this.position = { x: width / 2, y: height / 2 };
     this.message = "";
     this.textAlign = "center";
-    this.scoreFont = "bold 50pt consolas";
-    this.textFont = "bold 30pt consolas";
+    this.scoreFont = "bold 40pt classicFont";
+    this.textFont = "bold 30pt classicFont";
     this.colour = "#00FF00";
 
     //change these if nesecary for effects
@@ -31,8 +31,8 @@ function HUD(width, height) {
         //draw messages
         ctx.fillText(this.message, this.position.x, this.position.y * 2 - 20);
         ctx.font = this.scoreFont;
-        ctx.fillText(this.scores.p1, this.position.x - 100, 50);
-        ctx.fillText(this.scores.p2, this.position.x + 100, 50);
+        ctx.fillText(this.scores.p1, this.position.x - 100, 55);
+        ctx.fillText(this.scores.p2, this.position.x + 100, 55);
 
         //dotted line
         ctx.strokeStyle = this.lineColour;
