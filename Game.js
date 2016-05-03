@@ -10,7 +10,6 @@ var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
 var hud;
 var ctx;
-var wait = 0; //improve this... used for hud wait timer, could be moved into hud class
 
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 /**
@@ -58,10 +57,10 @@ socket.on("play", function () {
  * and display a message to the other clients
  */
 socket.on("disconection", function (msg) {
-    wait = 60;
     play = false;
     hud.message = "player " + (msg + 1) + " disconected";
     hud.draw(ctx);
+    hud.timer = 59;
 });
 
 /**
@@ -152,16 +151,6 @@ window.onload = function () {
             paddles[0].draw(ctx);
             paddles[1].draw(ctx);
             hud.draw(ctx);
-
-            //wait timer on hud... probably needs improving
-            if (hud.message !== "") {
-                if (wait === 60) {
-                    hud.message = "";
-                    wait = 0;
-                } else {
-                    wait += 1;
-                }
-            }
 
             //p1 controls game logic
             if (player === 1) {

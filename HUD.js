@@ -13,6 +13,8 @@ function HUD(width, height) {
     this.scoreFont = "bold 40pt classicFont";
     this.textFont = "bold 30pt classicFont";
     this.colour = "#00FF00";
+    this.waitTimeSec = 1;
+    this.timer = 0;
 
     //change these if nesecary for effects
     this.textColour = this.colour;
@@ -24,6 +26,17 @@ function HUD(width, height) {
      * @param ctx canvas context for drawing HUD
      */
     this.draw = function (ctx) {
+
+        //wait timer on hud message
+        if (this.message !== "") {
+            if (this.timer === (this.waitTimeSec * 60)) {
+                this.message = "";
+                this.timer = 0;
+            } else {
+                this.timer += 1;
+            }
+        }
+
         ctx.font = this.textFont;
         ctx.fillStyle = this.textColour;
         ctx.textAlign = this.textAlign;
