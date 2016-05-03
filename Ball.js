@@ -22,6 +22,7 @@ function Ball() {
 
     this.initSpd = 4;
     this.position = { x: 0, y: 0 };
+    this.trail = { x: new Array(10), y: new Array(10) };
     this.velocity = getV(this.initSpd);
     this.colour = "#FFF";
     this.lineWidth = 5;
@@ -31,6 +32,11 @@ function Ball() {
      * moves the ball in the direction specified by it's velocity vector
      */
     this.move = function () {
+        this.trail.x.shift();
+        this.trail.y.shift();
+        this.trail.x.push(this.position.x);
+        this.trail.y.push(this.position.y);
+
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
     };
@@ -72,7 +78,7 @@ function Ball() {
     };
 
     /**
-     * draw the ball
+     * draw the ball and it's trail
      * 
      * @param ctx the context of the canvas
      */
@@ -80,10 +86,27 @@ function Ball() {
         ctx.strokeStyle = this.colour;
         ctx.fillStyle = this.colour;
         ctx.lineWidth = this.lineWidth;
-        ctx.beginPath();
-        ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.stroke();
+        drawCircle(this.position.x, this.position.y, this.radius, ctx);
+
         this.move();
+        for (var i = 0; i < this.trail.x.length; i++) {
+            drawCircle(this.trail.x[i], this.trail.y[i], i / this.radius, ctx);
+
+        }
+
+        /**
+         * local circle drawing function, doesn't need public access
+         * 
+         * @param x is the x position of the circle
+         * @param y is the y position of the circle
+         * @param r is the radius of the cirlce
+         * @param ctx is the canvas context
+         */
+        function drawCircle(x, y, r, ctx) {
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        }
     };
 }
