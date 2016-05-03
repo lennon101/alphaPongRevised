@@ -35,7 +35,7 @@ socket.on('getPlayerNumber', function (msg) {
  */
 socket.on("ball", function (ball) {
     if (player > 1) {
-        for (i = 0; i < ball.length; i++) {
+        for (var i = 0; i < ball.length; i++) {
             balls[i].position = ball[i].position;
             balls[i].velocity = ball[i].velocity;
         }
@@ -97,6 +97,9 @@ socket.on("hud", function (newhud) {
 window.onload = function () {
     hud = new HUD(canvas.width, canvas.height);
     ctx = canvas.getContext("2d");
+    hud.message = "waiting for P2";
+    hud.timer = 59;
+    hud.draw(ctx);
 
     /**
      * creates balls
