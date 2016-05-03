@@ -21,6 +21,7 @@ function Ball() {
     }
 
     this.initSpd = 4;
+    this.speedDelta = 1;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
     this.velocity = getV(this.initSpd);
@@ -71,10 +72,12 @@ function Ball() {
 
     /**
      * increases the speed of the ball
+     * 
+     * problems: doesnt work on p2 paddle yet becuase it increments a negative x velocity..
      */
     this.increaseSpeed = function () {
-        this.position.x += 1;
-        this.position.y += 1;
+        this.velocity.x += this.speedDelta;
+        this.velocity.y += this.speedDelta;
     };
 
     /**

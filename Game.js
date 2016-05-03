@@ -169,10 +169,12 @@ window.onload = function () {
                 for (var i = 0; i < balls.length; ++i) {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
+                        balls[i].increaseSpeed();
                     }
 
                     if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
+                       // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
                     }
                     balls[i].draw(ctx);
 
