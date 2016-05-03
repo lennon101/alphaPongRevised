@@ -26,7 +26,7 @@ io.on('connection', function (socket) {
      */
     socket.emit("getPlayerNumber", activeClients.length);
     if (activeClients.length >= 2) {
-            io.emit("play",true);
+        io.emit("play", true);
     }
 
     /**
@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
             io.emit("disconection", activeClients.indexOf(socket));
         }
         activeClients.splice(activeClients.indexOf(socket.id), 1);
-        
+
     });
 
     /**
@@ -48,7 +48,7 @@ io.on('connection', function (socket) {
     activeClients[0].on("balls", function (balls) {
         io.emit("ball", balls);
     });
-    
+
     /**
      * listens for the hud object from player 1 and sends it to all other clients
      */

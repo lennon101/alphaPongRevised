@@ -174,7 +174,7 @@ window.onload = function () {
 
                     if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
-                       // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
+                        // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
                     }
                     balls[i].draw(ctx);
 
