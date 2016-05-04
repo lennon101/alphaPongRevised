@@ -1,5 +1,7 @@
 /** 
  * PONG REVISED game controller 
+ *
+ *todo: make it so only x is incremented...
  */
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
