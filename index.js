@@ -48,10 +48,6 @@ io.on('connection', function (socket) {
     activeClients[0].on("balls", function (balls) {
         io.emit("ball", balls);
     });
-    
-    socket.on("lagComp", function (balls) {
-       io.emit("ball", balls); 
-    });
 
     /**
      * listens for the hud object from player 1 and sends it to all other clients

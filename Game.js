@@ -3,7 +3,8 @@
  *
  *todo: make it so only x is incremented...
  */
-var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
+var socket = io("http://121.222.103.50:3000"); // change this to server address. only use localhost if running lan
+//var socket = io("http://localhost:3000");
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
@@ -12,6 +13,7 @@ var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
 var hud;
 var ctx;
+var frame = 0;
 
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 /**
@@ -36,12 +38,14 @@ socket.on('getPlayerNumber', function (msg) {
  * - is limited by JSON's inability to transfer functions
  */
 socket.on("ball", function (ball) {
+
     if (player > 1) {
-    for (var i = 0; i < ball.length; i++) {
-        balls[i].position = ball[i].position;
-        balls[i].velocity = ball[i].velocity;
+        for (var i = 0; i < ball.length; i++) {
+            balls[i].position = ball[i].position;
+            balls[i].velocity = ball[i].velocity;
+        }
     }
-     }
+
 });
 
 /**
@@ -159,15 +163,17 @@ window.onload = function () {
 
             //p1 controls game logic
             if (player === 1) {
-                socket.emit("balls", balls);
+                if (frame % 2 === 0) {
+                    socket.emit("balls", balls);
+                }     
                 for (var i = 0; i < balls.length; ++i) {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
                         //test for where on the paddle the ball hit and bounce more in the 'y' direction if it was on the upper or lower thirds
-                        if (paddles[0].getHitPosition(balls[i].position.y)==2 ){
+                        if (paddles[0].getHitPosition(balls[i].position.y) == 2) {
                             balls[i].bounceY(1)
                         } else {
-                            balls[i].bounceY(1.5)                            
+                            balls[i].bounceY(1.5)
                         }
                         balls[i].increaseSpeed();
                     }
@@ -195,20 +201,14 @@ window.onload = function () {
                     }
                 }
             } else {
-                //solves lag problem
-                //if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
-                //    balls[i].bounceX();
-                    // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
-                //    socket.emit("lagComp", balls);
-                //}
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
 
             }
         }
+        frame += 1;
         requestAnimationFrame(game);
-
     }
     game();
 }
