@@ -34,12 +34,12 @@ socket.on('getPlayerNumber', function (msg) {
  * - is limited by JSON's inability to transfer functions
  */
 socket.on("ball", function (ball) {
-    if (player > 1) {
+    //if (player > 1) {
         for (var i = 0; i < ball.length; i++) {
             balls[i].position = ball[i].position;
             balls[i].velocity = ball[i].velocity;
         }
-    }
+   // }
 });
 
 /**
@@ -187,9 +187,16 @@ window.onload = function () {
                     }
                 }
             } else {
+                //solves lag problem
+                if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
+                    balls[i].bounceX();
+                    // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
+                    socket.emit("lagComp", balls);
+                }
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
+
             }
         }
         requestAnimationFrame(game);
