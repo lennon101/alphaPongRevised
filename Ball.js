@@ -5,26 +5,45 @@
 function Ball() {
     "use strict";
     /**
-     * sets initial random direction
+     * SUPERCEEDED BY calcInitialVelocity - sets initial random direction
      * 
      * @param spd the initial speed of the ball
-     * @returns the velocity (speed and direction) of the ball
+     * @returns the velocity (speed and direction) of the ball in x and y coordinates
      */
     function getV(spd) {
         if (Math.floor(Math.random() * 100) + 1 <= 50) {
-            var startDir = (Math.random() * (90 + 30)) + 60;
+            var startDir = (Math.random() * 180);
         } else {
-            var startDir = (Math.random() * ((180 + 90) + 30)) + (180 + 60);
+            var startDir = (Math.random() * 540);
         }
+        
         var rad = (Math.PI / 180) * (startDir - 90);
         return { x: spd * Math.cos(rad), y: spd * Math.sin(rad) };
     }
+    
+    /**
+     * calculates initial velocity for the ball by using the initial speed
+     * 
+     * @param spd the initial speed of the ball 
+     * @returns the object velocity containg x and y speeds 
+     */
+    function calcInitialVelocity(spd){
+        //generate random x and y directions 
+        var xDir = (Math.random() < 0.5) ? -1 : 1;
+        var yDir = (Math.random() < 0.5) ? -1 : 1;
+        //generate random y speed
+        var ySpd = spd * Math.abs(Math.random() * spd);
+        //ensure x speed is always lareger than y speed
+        var xSpd = spd * Math.abs((Math.random() * (spd - ySpd)) + ySpd);        
+        return { x: xDir * xSpd, y: yDir * ySpd };
+    }
 
-    this.initSpd = 4;
+    this.initSpd = 2;
     this.speedDelta = 1;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
-    this.velocity = getV(this.initSpd);
+    //this.velocity = getV(this.initSpd);
+    this.velocity = calcInitialVelocity(this.initSpd);
     this.colour = "#FFF";
     this.lineWidth = 5;
     this.radius = 4;
