@@ -1,5 +1,7 @@
 /** 
  * PONG REVISED game controller 
+ *
+ *todo: make it so only x is incremented...
  */
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
@@ -34,12 +36,12 @@ socket.on('getPlayerNumber', function (msg) {
  * - is limited by JSON's inability to transfer functions
  */
 socket.on("ball", function (ball) {
-    //if (player > 1) {
+    if (player > 1) {
     for (var i = 0; i < ball.length; i++) {
         balls[i].position = ball[i].position;
         balls[i].velocity = ball[i].velocity;
     }
-    // }
+     }
 });
 
 /**
@@ -188,11 +190,11 @@ window.onload = function () {
                 }
             } else {
                 //solves lag problem
-                if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
-                    balls[i].bounceX();
+                //if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
+                //    balls[i].bounceX();
                     // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
-                    socket.emit("lagComp", balls);
-                }
+                //    socket.emit("lagComp", balls);
+                //}
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
