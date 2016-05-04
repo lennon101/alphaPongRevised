@@ -13,7 +13,7 @@ var ctx;
 
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 /**
- * sets up the player number (p1, p2, x)
+ * sets up the plasyer number (p1, p2, x)
  * 
  * listens for the 'getPlayerNumber' command from the server
  * that passes the player's number via the msg variable
