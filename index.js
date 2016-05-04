@@ -49,7 +49,7 @@ io.on('connection', function (socket) {
         io.emit("ball", balls);
     });
     
-    activeClients[1].on("lagComp", function (balls) {
+    socket.on("lagComp", function (balls) {
        io.emit("ball", balls); 
     });
 
