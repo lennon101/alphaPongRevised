@@ -35,11 +35,11 @@ socket.on('getPlayerNumber', function (msg) {
  */
 socket.on("ball", function (ball) {
     //if (player > 1) {
-        for (var i = 0; i < ball.length; i++) {
-            balls[i].position = ball[i].position;
-            balls[i].velocity = ball[i].velocity;
-        }
-   // }
+    for (var i = 0; i < ball.length; i++) {
+        balls[i].position = ball[i].position;
+        balls[i].velocity = ball[i].velocity;
+    }
+    // }
 });
 
 /**
