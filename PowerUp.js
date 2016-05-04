@@ -22,6 +22,7 @@ function PowerUp(x, y, colour, text) {
      */
     this.draw = function (ctx) {
         console.log("PowerUp: Draw");
+        
         ctx.strokeStyle = this.colour;
         ctx.fillStyle = this.colour;
         ctx.lineWidth = this.strokeLineWidth;
@@ -29,7 +30,6 @@ function PowerUp(x, y, colour, text) {
         ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
         // ctx.fill();
         ctx.stroke();
-        
         ctx.font = this.textFont;
         ctx.fillText(this.text, this.position.x-8, this.position.y+10);
         
