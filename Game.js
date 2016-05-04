@@ -3,8 +3,8 @@
  *
  *todo: make it so only x is incremented...
  */
-var socket = io("http://121.222.103.50:3000"); // change this to server address. only use localhost if running lan
-//var socket = io("http://localhost:3000");
+//varsocket = io("http://121.222.103.50:3000"); // change this to server address. only use localhost if running lan
+var socket = io("http://localhost:3000");
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
