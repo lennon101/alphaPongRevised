@@ -32,7 +32,7 @@ io.on('connection', function (socket) {
     /**
      * listens for a client disconection and removes them from active clients listen
      * 
-     * problems: refreshing the page with more than one client connection stuffs everything up
+     * problems: refresshing the page with more than one client connection stuffs everything up
      */
     socket.on('disconnect', function () {
         if (activeClients.indexOf(socket) === 0 || activeClients.indexOf(socket) === 1) {
