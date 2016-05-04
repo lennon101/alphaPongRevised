@@ -161,6 +161,12 @@ window.onload = function () {
                 for (var i = 0; i < balls.length; ++i) {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
+                        //test for where on the paddle the ball hit and bounce more in the 'y' direction if it was on the upper or lower thirds
+                        if (paddles[0].getHitPosition(balls[i].position.y)==2 ){
+                            balls[i].bounceY(1)
+                        } else {
+                            balls[i].bounceY(1.5)                            
+                        }
                         balls[i].increaseSpeed();
                     }
 
@@ -183,7 +189,7 @@ window.onload = function () {
                         makeBalls();
 
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
-                        balls[i].bounceY();
+                        balls[i].bounceY(1);
                     }
                 }
             } else {

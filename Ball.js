@@ -5,10 +5,11 @@
 function Ball() {
     "use strict";
     /**
-     * SUPERCEEDED BY calcInitialVelocity - sets initial random direction
+     * sets initial random direction
      * 
      * @param spd the initial speed of the ball
      * @returns the velocity (speed and direction) of the ball in x and y coordinates
+     * @deprecated SUPERCEEDED BY calcInitialVelocity - 
      */
     function getV(spd) {
         if (Math.floor(Math.random() * 100) + 1 <= 50) {
@@ -85,8 +86,8 @@ function Ball() {
     /**
      * bounce the ball in the x direction 
      */
-    this.bounceY = function () {
-        this.velocity.y = this.velocity.y * -1;
+    this.bounceY = function (scaler) {
+        this.velocity.y = this.velocity.y * -1 * scaler;
     };
 
     /**
