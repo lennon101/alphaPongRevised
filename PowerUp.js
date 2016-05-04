@@ -8,10 +8,12 @@
  */
 function PowerUp(x, y, colour, text) {
     this.position = {x: x, y: y};
-    this.radius = 10;
+    this.radius = 25;
     this.colour = colour || '#FF0000';
     this.text = text || "D";
-    this.strokeLineWidth = 5;
+    this.strokeLineWidth = 8;
+    this.textFont = "bold 20pt classicFont";
+    
 
     /**
      * draws the power up
@@ -19,8 +21,18 @@ function PowerUp(x, y, colour, text) {
      * @param ctx canvas context for drawing power up
      */
     this.draw = function (ctx) {
-                console.log("PowerUp: Draw");
-
+        console.log("PowerUp: Draw");
+        ctx.strokeStyle = this.colour;
+        ctx.fillStyle = this.colour;
+        ctx.lineWidth = this.strokeLineWidth;
+        ctx.beginPath();
+        ctx.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
+        // ctx.fill();
+        ctx.stroke();
+        
+        ctx.font = this.textFont;
+        ctx.fillText(this.text, this.position.x-8, this.position.y+10);
+        
     };
 
     /**
@@ -29,7 +41,7 @@ function PowerUp(x, y, colour, text) {
      * @param y the y postion of the power up
      */
     this.move = function () {
-                console.log("PowerUp: Move");
+        console.log("PowerUp: Move");
 
         //TO-DO bounce up and down.
     };

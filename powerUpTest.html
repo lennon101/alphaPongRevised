@@ -37,12 +37,15 @@
     Your browser does not support the HTML5 canvas.
     </canvas>
     <script>
-        var p = new PowerUp();
-        p.draw();
-        p.move();
-        var m = new MultiBall();
-        m.draw();
-        m.move();
+        var canvas = document.getElementById("pongCanvas");
+        var ctx = canvas.getContext("2d");
+        
+        var p = new PowerUp(100, 100, "#FF0000", "F");
+        p.draw(ctx);
+        // p.move();
+        // var m = new MultiBall();
+        // m.draw();
+        // m.move();
     </script>
 </body>
 
