@@ -74,7 +74,7 @@ function Paddle(x, colour) {
     }
 
     this.hitTest2 = function (x, y) {
-        if (x >= (this.position.x - this.dimensions.width) && (y >= this.position.y && y <= (this.position.y + this.dimensions.length))) {
+        if (x >= (this.position.x) && (y >= this.position.y && y <= (this.position.y + this.dimensions.length))) {
             //        if (y < this.position.y + 1/3*this.dimensions.length){
             //            console.log("upper third hit")
             //        } else if ((y > this.position.y + 1/3*this.dimensions.length) &&(y < this.position.y + 2/3*this.dimensions.length)){
