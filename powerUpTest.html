@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: classicFont;
+            src: url('font.ttf');
+        }
+        
+        body {
+            background-color: black;
+            text-align: center;
+        }
+        
+        #pongCanvas {
+            background-color: black;
+            border: solid #00FF00;
+            top: 6.25%;
+        }
+        
+        h1 {
+            color: #00FF00;
+            font-family: classicFont;
+        }
+        
+        p {
+            color: white;
+        }
+    </style>
+    <script src="PowerUp.js"></script>
+    <script src="MultiBall.js"></script>
+</head>
+
+<body>
+    <h1>PONG Revised!!</h1>
+    <canvas id="pongCanvas" width="800" height="500">
+    Your browser does not support the HTML5 canvas.
+    </canvas>
+    <script>
+        var p = new PowerUp();
+        p.draw();
+        p.move();
+        var m = new MultiBall();
+        m.draw();
+        m.move();
+    </script>
+</body>
+
+</html>
