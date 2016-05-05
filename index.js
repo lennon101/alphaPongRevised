@@ -6,6 +6,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = 3000;
 var activeClients = [];
+var paddles = [0,0];
 
 //socket.io keys:
 //socket.emit - emits to only the specified client
@@ -58,11 +59,25 @@ io.on('connection', function (socket) {
 
     /**
      * receives and sends paddle objects between all clients
-     * 
-     * TODO: simplify this so that the client doesnt have to distinguish them
+     *
+     * controls what data is sent to what client
      */
-    socket.on("paddles", function (paddles) {
-        io.emit("paddles", paddles);
+    socket.on("paddles", function (paddle) {
+        if (activeClients.indexOf(socket) === 0) {
+            paddles[0] = paddle;
+        } else {
+            paddles[1] = paddle;
+        }
+
+        for (i = 0; i < activeClients.length; i++) {
+            if (i === 0) {
+                activeClients[i].emit("paddles", [paddles[1]]);
+            } else if (i === 1) {
+                activeClients[i].emit("paddles", [paddles[0]]);
+            } else {
+                activeClients[i].emit("paddles", paddles);
+            }
+        }
     });
 
     /**

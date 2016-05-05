@@ -2,7 +2,7 @@
  * PONG REVISED game controller
  *
  *issues:
- * - ball reflection sis still off
+ * - ball reflection is still off
  */
 //varsocket = io("http://121.222.103.50:3000"); 
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
@@ -39,7 +39,6 @@ socket.on('getPlayerNumber', function (msg) {
  * - is limited by JSON's inability to transfer functions
  */
 socket.on("ball", function (ball) {
-
     if (player > 1) {
         for (var i = 0; i < ball.length; i++) {
             balls[i].position = ball[i].position;
@@ -77,7 +76,7 @@ socket.on("paddles", function (paddlesS) {
     if (player === 2) {
         paddles[0].position.y = paddlesS[0].position.y;
     } else if (player === 1) {
-        paddles[1].position.y = paddlesS[1].position.y;
+        paddles[1].position.y = paddlesS[0].position.y;
     } else {
         paddles[0].position.y = paddlesS[0].position.y;
         paddles[1].position.y = paddlesS[1].position.y;
@@ -152,7 +151,7 @@ window.onload = function () {
             paddles[Paddle].position.y = canvas.height - paddles[Paddle].dimensions.length - paddles[Paddle].dimensions.length / 100;
         }
         //sends paddle data to server
-        socket.emit("paddles", paddles);
+        socket.emit("paddles", paddles[Paddle]);
     });
 
     /**
