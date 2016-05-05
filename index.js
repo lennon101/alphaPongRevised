@@ -5,6 +5,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = 3000;
+var debug = true;
 var activeClients = [];
 var paddles = [0,0];
 
@@ -26,7 +27,9 @@ io.on('connection', function (socket) {
      * sends the client their player identifier
      */
     socket.emit("getPlayerNumber", activeClients.length);
+    log("player " + activeClients.length + " has joined.");
     if (activeClients.length >= 2) {
+        log("game commencing");
         io.emit("play", true);
     }
 
@@ -38,8 +41,10 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function () {
         if (activeClients.indexOf(socket) === 0 || activeClients.indexOf(socket) === 1) {
             io.emit("disconection", activeClients.indexOf(socket));
+            log("player 1 or 2 has disconected, halting game");
         }
         activeClients.splice(activeClients.indexOf(socket.id), 1);
+        log("active clients: " + activeClients);
 
     });
 
@@ -52,8 +57,11 @@ io.on('connection', function (socket) {
 
     /**
      * listens for the hud object from player 1 and sends it to all other clients
+     *
+     * could be optimized like the paddles class
      */
     socket.on("hud", function (hud) {
+        log("hud update p1: "+ hud.scores.p1 + " p2: " + hud.scores.p2 + " message: "+ hud.message);
         io.emit("hud", hud);
     });
 
@@ -94,3 +102,13 @@ io.on('connection', function (socket) {
 http.listen(port, function () {
     console.log('listening on *:' + port);
 });
+
+/**
+ * debug function for logging
+ */
+function log(message) {
+    if (debug) {
+        console.log(message);
+        io.emit("debug", message);
+    }
+}
