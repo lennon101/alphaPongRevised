@@ -4,38 +4,21 @@
  */
 function Ball() {
     "use strict";
-    /**
-     * sets initial random direction
-     * 
-     * @param spd the initial speed of the ball
-     * @returns the velocity (speed and direction) of the ball in x and y coordinates
-     * @deprecated SUPERCEEDED BY calcInitialVelocity - 
-     */
-    function getV(spd) {
-        if (Math.floor(Math.random() * 100) + 1 <= 50) {
-            var startDir = (Math.random() * 180);
-        } else {
-            var startDir = (Math.random() * 540);
-        }
-        
-        var rad = (Math.PI / 180) * (startDir - 90);
-        return { x: spd * Math.cos(rad), y: spd * Math.sin(rad) };
-    }
-    
+
     /**
      * calculates initial velocity for the ball by using the initial speed
      * 
      * @param spd the initial speed of the ball 
      * @returns the object velocity containg x and y speeds 
      */
-    function calcInitialVelocity(spd){
+    function calcInitialVelocity(spd) {
         //generate random x and y directions 
         var xDir = (Math.random() < 0.5) ? -1 : 1;
         var yDir = (Math.random() < 0.5) ? -1 : 1;
         //generate random y speed
         var ySpd = spd * Math.abs(Math.random() * spd);
         //ensure x speed is always lareger than y speed
-        var xSpd = spd * Math.abs((Math.random() * (spd - ySpd)) + ySpd);        
+        var xSpd = spd * Math.abs((Math.random() * (spd - ySpd)) + ySpd);
         return { x: xDir * xSpd, y: yDir * ySpd };
     }
 
@@ -43,7 +26,6 @@ function Ball() {
     this.speedDelta = 1;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
-    //this.velocity = getV(this.initSpd);
     this.velocity = calcInitialVelocity(this.initSpd);
     this.colour = "#FFF";
     this.lineWidth = 5;
@@ -63,20 +45,6 @@ function Ball() {
     };
 
     /**
-     * bounces the ball with regards to an axis
-     * 
-     * @param string to find which axis the ball is bouncing off
-     * @deprecated function is illogical to pass string as comparison. split into two separate methods for clarity
-     */
-    this.bounce = function (axis) {
-        if (axis === "x") {
-            this.velocity.x = this.velocity.x * -1;
-        } else {
-            this.velocity.y = this.velocity.y * -1;
-        }
-    };
-
-    /**
      * bounce the ball in the x direction 
      */
     this.bounceX = function () {
@@ -92,12 +60,13 @@ function Ball() {
 
     /**
      * increases the speed of the ball
-     * 
-     * problems: doesnt work on p2 paddle yet becuase it increments a negative x velocity..
      */
     this.increaseSpeed = function () {
-        this.velocity.x += this.speedDelta;
-        this.velocity.y += this.speedDelta;
+        if (this.velocity.x > 1) {
+            this.velocity.x += this.speedDelta;
+        } else {
+            this.velocity.x -= this.speedDelta;
+        }
     };
 
     /**

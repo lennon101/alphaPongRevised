@@ -1,10 +1,11 @@
 /** 
- * PONG REVISED game controller 
+ * PONG REVISED game controller
  *
- *todo: make it so only x is incremented...
+ *issues:
+ * - ball reflection sis still off
  */
-//varsocket = io("http://121.222.103.50:3000"); // change this to server address. only use localhost if running lan
-var socket = io("http://localhost:3000");
+//varsocket = io("http://121.222.103.50:3000"); 
+var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
@@ -84,14 +85,21 @@ socket.on("paddles", function (paddlesS) {
 });
 
 /** 
- * receives the hud from p1 for p2
+ * receives the hud from clients
  */
 socket.on("hud", function (newhud) {
-    if (player > 1) {
-        hud.scores.p1 = newhud.scores.p1;
-        hud.scores.p2 = newhud.scores.p2;
-        hud.message = newhud.message;
-    }
+    hud.scores.p1 = newhud.scores.p1;
+    hud.scores.p2 = newhud.scores.p2;
+    hud.message = newhud.message;
+    hud.timer = newhud.timer;
+    hud.draw(ctx);
+});
+
+/**
+ * on receving a pause request, pauses the game
+ */
+socket.on("pause", function (state) {
+    play = state;
 });
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 
@@ -148,6 +156,29 @@ window.onload = function () {
     });
 
     /**
+     * an event listener for the keyboard
+     *
+     * can be used to add shortcuts to the game
+     * currently controls the pause function
+     */
+    window.onkeyup = function (e) {
+        if (player === 1 || player == 2) {
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key === 80 && play === true) { //80 = p
+                hud.message = "paused";
+                hud.timer = 55;
+                hud.draw(ctx);
+                socket.emit("hud", hud);
+                play = false;
+                socket.emit("pause", play);
+            } else if (key === 80 && play === false) {
+                play = true;
+                socket.emit("pause", play);
+            }
+        }
+    }
+
+    /**
      * Main game loop
      * 
      * this function is called every frame
@@ -165,7 +196,7 @@ window.onload = function () {
             if (player === 1) {
                 if (frame % 2 === 0) {
                     socket.emit("balls", balls);
-                }     
+                }
                 for (var i = 0; i < balls.length; ++i) {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
@@ -180,7 +211,7 @@ window.onload = function () {
 
                     if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
-                        // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
+                        balls[i].increaseSpeed();
                     }
                     balls[i].draw(ctx);
 

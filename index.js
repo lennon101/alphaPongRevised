@@ -52,7 +52,7 @@ io.on('connection', function (socket) {
     /**
      * listens for the hud object from player 1 and sends it to all other clients
      */
-    activeClients[0].on("hud", function (hud) {
+    socket.on("hud", function (hud) {
         io.emit("hud", hud);
     });
 
@@ -63,6 +63,13 @@ io.on('connection', function (socket) {
      */
     socket.on("paddles", function (paddles) {
         io.emit("paddles", paddles);
+    });
+
+    /**
+     * controlls the pausing of the game between all the clients
+     */
+    socket.on("pause", function (state) {
+        io.emit("pause", state);
     });
 });
 
