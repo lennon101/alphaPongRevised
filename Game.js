@@ -73,13 +73,17 @@ socket.on("disconection", function (msg) {
  * waits to receive paddle positional information from the server
  */
 socket.on("paddles", function (paddlesS) {
-    if (player === 2) {
-        paddles[0].position.y = paddlesS[0].position.y;
-    } else if (player === 1) {
-        paddles[1].position.y = paddlesS[0].position.y;
-    } else {
-        paddles[0].position.y = paddlesS[0].position.y;
-        paddles[1].position.y = paddlesS[1].position.y;
+    try {
+        if (player === 2) {
+            paddles[0].position.y = paddlesS[0].position.y;
+        } else if (player === 1) {
+            paddles[1].position.y = paddlesS[0].position.y;
+        } else {
+            paddles[0].position.y = paddlesS[0].position.y;
+            paddles[1].position.y = paddlesS[1].position.y;
+        }
+    } catch (e) {
+        //2nd paddle doesn't exist to server yet. using default
     }
 });
 
