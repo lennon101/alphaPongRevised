@@ -8,7 +8,7 @@
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
-var numOfBalls = 10;
+var numOfBalls = 1;
 var canvas = document.getElementById("pongCanvas");
 var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
@@ -213,7 +213,7 @@ window.onload = function () {
                             hud.message = "Player 1 won"
                             hud.scores.p1 += 1;
                             socket.emit("hud", hud);
-                            makeBalls();
+                            makeBalls(numOfBalls);
                         } else {
                             hud.scores.p1 += 1;
                             socket.emit("hud", hud);
@@ -225,7 +225,7 @@ window.onload = function () {
                             hud.message = "Player 2 won"
                             hud.scores.p2 += 1;
                             socket.emit("hud", hud);
-                            makeBalls();
+                            makeBalls(numOfBalls);
                         } else {
                             hud.scores.p2 += 1;
                             socket.emit("hud", hud);
@@ -251,9 +251,9 @@ window.onload = function () {
 /**
  * creates balls
  */
-function makeBalls() {
+function makeBalls(n) {
     balls = [];
-    for (var i = 0; i < numOfBalls; ++i) {
+    for (var i = 0; i < n; ++i) {
         balls.push(new Ball());
         balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
     }
@@ -264,5 +264,5 @@ function makeBalls() {
  */
 function reset() {
     hud = new HUD(canvas.width, canvas.height);
-    makeBalls();
+    makeBalls(numOfBalls);
 }
