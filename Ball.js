@@ -30,16 +30,16 @@ function Ball() {
     this.colour = "#FFF";
     this.trailColour = [255, 0, 255];
     this.radius = 5;
-    
-    this.forceBallLeft = function(){
-        if (this.velocity.x > 0){
-            this.velocity.x = this.velocity.x*-1;
+
+    this.forceBallLeft = function () {
+        if (this.velocity.x > 0) {
+            this.velocity.x = this.velocity.x * -1;
         }
     }
-    
-    this.forceBallRight = function(){
-        if (this.velocity.x < 0){
-            this.velocity.x = this.velocity.x*-1;
+
+    this.forceBallRight = function () {
+        if (this.velocity.x < 0) {
+            this.velocity.x = this.velocity.x * -1;
         }
     }
 
@@ -92,7 +92,7 @@ function Ball() {
         } else {
             this.trailColour = [this.trailColour[0] + 5, 0, this.trailColour[2] - 5];
         }
-        
+
         ctx.strokeStyle = ctx.fillStyle = ["rgb(", this.trailColour[0], ",", this.trailColour[1], ",", this.trailColour[2], ")"].join("");
         for (var i = 0; i < this.trail.x.length; i++) {
             drawCircle(this.trail.x[i], this.trail.y[i], i / (this.radius - 2), ctx);

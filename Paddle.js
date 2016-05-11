@@ -65,21 +65,21 @@ function Paddle(x, colour) {
         }
         return false;
     }
-    
+
     /**
      * if hit, find out where on the paddle the object hit
      * 
      * @param y the position of y of the object
      * @returns 1 = upper third, 2 = middle, 3 = lower third 
      */
-    this.getHitPosition = function(y) {
-        if (y < this.position.y + 1/3*this.dimensions.length){
+    this.getHitPosition = function (y) {
+        if (y < this.position.y + 1 / 3 * this.dimensions.length) {
             console.log("upper third hit")
             return 1
-        } else if ((y > this.position.y + 1/3*this.dimensions.length) &&(y < this.position.y + 2/3*this.dimensions.length)){
+        } else if ((y > this.position.y + 1 / 3 * this.dimensions.length) && (y < this.position.y + 2 / 3 * this.dimensions.length)) {
             console.log("middle third hit")
             return 2
-        } else{
+        } else {
             console.log("lower third hit")
             return 3
         }

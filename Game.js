@@ -217,7 +217,7 @@ window.onload = function () {
                         } else {
                             hud.scores.p1 += 1;
                             socket.emit("hud", hud);
-                            balls.splice(i,1);
+                            balls.splice(i, 1);
                         }
 
                     } else if (balls[i].position.x <= 0) {
@@ -229,7 +229,7 @@ window.onload = function () {
                         } else {
                             hud.scores.p2 += 1;
                             socket.emit("hud", hud);
-                            balls.splice(i,1);
+                            balls.splice(i, 1);
                         }
 
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
