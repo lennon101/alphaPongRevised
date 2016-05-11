@@ -7,7 +7,7 @@ var io = require('socket.io')(http);
 var port = 3000;
 var debug = true;
 var activeClients = [];
-var paddles = [0,0];
+var paddles = [0, 0];
 
 //socket.io keys:
 //socket.emit - emits to only the specified client
@@ -61,7 +61,7 @@ io.on('connection', function (socket) {
      * could be optimized like the paddles class
      */
     socket.on("hud", function (hud) {
-        log("hud update p1: "+ hud.scores.p1 + " p2: " + hud.scores.p2 + " message: "+ hud.message);
+        log("hud update p1: " + hud.scores.p1 + " p2: " + hud.scores.p2 + " message: " + hud.message);
         io.emit("hud", hud);
     });
 

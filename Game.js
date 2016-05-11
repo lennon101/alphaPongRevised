@@ -54,6 +54,7 @@ socket.on("ball", function (ball) {
 socket.on("play", function () {
     console.log("p2 has joined");
     play = true;
+    reset();
 });
 
 /**
@@ -112,23 +113,11 @@ socket.on("pause", function (state) {
  * waits for the everything to load before running 
  */
 window.onload = function () {
-    hud = new HUD(canvas.width, canvas.height);
     ctx = canvas.getContext("2d");
+    reset();
     hud.message = "waiting for P2";
     hud.timer = 59;
     hud.draw(ctx);
-
-    /**
-     * creates balls
-     */
-    function makeBalls() {
-        balls = [];
-        for (var i = 0; i < numOfBalls; ++i) {
-            balls.push(new Ball());
-            balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
-        }
-    }
-    makeBalls();
 
     /**
      * an event listener for the mouse that controlls the position
@@ -245,4 +234,25 @@ window.onload = function () {
         requestAnimationFrame(game);
     }
     game();
+
+
 }
+
+    /**
+     * creates balls
+     */
+    function makeBalls() {
+        balls = [];
+        for (var i = 0; i < numOfBalls; ++i) {
+            balls.push(new Ball());
+            balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+        }
+    }
+
+    /**
+     * resets the game
+     */
+    function reset() {
+        hud = new HUD(canvas.width, canvas.height);
+        makeBalls();  
+    }
