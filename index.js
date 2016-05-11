@@ -1,8 +1,7 @@
 /**
  * SOCKET.IO server
  */
-var app = require('express')();
-var http = require('http').Server(app);
+var http = require('http').Server();
 var io = require('socket.io')(http);
 var port = 3000;
 var debug = true;
