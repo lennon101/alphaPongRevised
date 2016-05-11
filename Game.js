@@ -1,8 +1,10 @@
 /** 
- * PONG REVISED game controller 
+ * PONG REVISED game controller
  *
- *todo: make it so only x is incremented...
+ *issues:
+ * - ball reflection is still off
  */
+//var socket = io("http://121.222.103.50:3000"); 
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
@@ -12,6 +14,7 @@ var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
 var hud;
 var ctx;
+var frame = 0;
 
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 /**
@@ -22,6 +25,9 @@ var ctx;
  */
 socket.on('getPlayerNumber', function (msg) {
     player = msg;
+    if (player > 2) {
+        play = true;
+    }
     console.log(player);
 });
 
@@ -37,11 +43,13 @@ socket.on('getPlayerNumber', function (msg) {
  */
 socket.on("ball", function (ball) {
     if (player > 1) {
-    for (var i = 0; i < ball.length; i++) {
-        balls[i].position = ball[i].position;
-        balls[i].velocity = ball[i].velocity;
+        for (var i = 0; i < ball.length; i++) {
+            balls[i].position = ball[i].position;
+            balls[i].velocity = ball[i].velocity;
+            balls[i].trailColour = ball[i].trailColour;
+        }
     }
-     }
+
 });
 
 /**
@@ -50,6 +58,7 @@ socket.on("ball", function (ball) {
 socket.on("play", function () {
     console.log("p2 has joined");
     play = true;
+    reset();
 });
 
 /**
@@ -69,25 +78,36 @@ socket.on("disconection", function (msg) {
  * waits to receive paddle positional information from the server
  */
 socket.on("paddles", function (paddlesS) {
-    if (player === 2) {
-        paddles[0].position.y = paddlesS[0].position.y;
-    } else if (player === 1) {
-        paddles[1].position.y = paddlesS[1].position.y;
-    } else {
-        paddles[0].position.y = paddlesS[0].position.y;
-        paddles[1].position.y = paddlesS[1].position.y;
+    try {
+        if (player === 2) {
+            paddles[0].position.y = paddlesS[0].position.y;
+        } else if (player === 1) {
+            paddles[1].position.y = paddlesS[0].position.y;
+        } else {
+            paddles[0].position.y = paddlesS[0].position.y;
+            paddles[1].position.y = paddlesS[1].position.y;
+        }
+    } catch (e) {
+        //2nd paddle doesn't exist to server yet. using default
     }
 });
 
 /** 
- * receives the hud from p1 for p2
+ * receives the hud from clients
  */
 socket.on("hud", function (newhud) {
-    if (player > 1) {
-        hud.scores.p1 = newhud.scores.p1;
-        hud.scores.p2 = newhud.scores.p2;
-        hud.message = newhud.message;
-    }
+    hud.scores.p1 = newhud.scores.p1;
+    hud.scores.p2 = newhud.scores.p2;
+    hud.message = newhud.message;
+    hud.timer = newhud.timer;
+    hud.draw(ctx);
+});
+
+/**
+ * on receving a pause request, pauses the game
+ */
+socket.on("pause", function (state) {
+    play = state;
 });
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 
@@ -97,23 +117,11 @@ socket.on("hud", function (newhud) {
  * waits for the everything to load before running 
  */
 window.onload = function () {
-    hud = new HUD(canvas.width, canvas.height);
     ctx = canvas.getContext("2d");
+    reset();
     hud.message = "waiting for P2";
     hud.timer = 59;
     hud.draw(ctx);
-
-    /**
-     * creates balls
-     */
-    function makeBalls() {
-        balls = [];
-        for (var i = 0; i < numOfBalls; ++i) {
-            balls.push(new Ball());
-            balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
-        }
-    }
-    makeBalls();
 
     /**
      * an event listener for the mouse that controlls the position
@@ -140,8 +148,31 @@ window.onload = function () {
             paddles[Paddle].position.y = canvas.height - paddles[Paddle].dimensions.length - paddles[Paddle].dimensions.length / 100;
         }
         //sends paddle data to server
-        socket.emit("paddles", paddles);
+        socket.emit("paddles", paddles[Paddle]);
     });
+
+    /**
+     * an event listener for the keyboard
+     *
+     * can be used to add shortcuts to the game
+     * currently controls the pause function
+     */
+    window.onkeyup = function (e) {
+        if (player === 1 || player == 2) {
+            var key = e.keyCode ? e.keyCode : e.which;
+            if (key === 80 && play === true) { //80 = p
+                hud.message = "paused";
+                hud.timer = 55;
+                hud.draw(ctx);
+                socket.emit("hud", hud);
+                play = false;
+                socket.emit("pause", play);
+            } else if (key === 80 && play === false) {
+                play = true;
+                socket.emit("pause", play);
+            }
+        }
+    }
 
     /**
      * Main game loop
@@ -159,56 +190,84 @@ window.onload = function () {
 
             //p1 controls game logic
             if (player === 1) {
-                socket.emit("balls", balls);
+                if (frame % 2 === 0) {
+                    socket.emit("balls", balls);
+                }
                 for (var i = 0; i < balls.length; ++i) {
                     if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
                         //test for where on the paddle the ball hit and bounce more in the 'y' direction if it was on the upper or lower thirds
-                        if (paddles[0].getHitPosition(balls[i].position.y)==2 ){
+                        if (paddles[0].getHitPosition(balls[i].position.y) == 2) {
                             balls[i].bounceY(1)
                         } else {
-                            balls[i].bounceY(1.5)                            
+                            balls[i].bounceY(1.5)
                         }
                         balls[i].increaseSpeed();
                     }
 
                     if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
                         balls[i].bounceX();
-                        // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
+                        balls[i].increaseSpeed();
                     }
                     balls[i].draw(ctx);
 
                     if (balls[i].position.x >= canvas.width) {
-                        hud.message = "Player 2 Lost"
-                        hud.scores.p1 += 1;
-                        socket.emit("hud", hud);
-                        makeBalls();
+                        if (balls.length === 1) {
+                            hud.message = "Player 1 won"
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
+                            makeBalls(numOfBalls);
+                        } else {
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
+                            balls.splice(i, 1);
+                        }
 
                     } else if (balls[i].position.x <= 0) {
-                        hud.message = "Player 1 Lost"
-                        hud.scores.p2 += 1;
-                        socket.emit("hud", hud);
-                        makeBalls();
+                        if (balls.length === 1) {
+                            hud.message = "Player 2 won"
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
+                            makeBalls(numOfBalls);
+                        } else {
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
+                            balls.splice(i, 1);
+                        }
 
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY(1);
                     }
                 }
             } else {
-                //solves lag problem
-                //if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
-                //    balls[i].bounceX();
-                    // balls[i].increaseSpeed();  --doesnt work on p2 paddle yet
-                //    socket.emit("lagComp", balls);
-                //}
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
-
             }
         }
+        frame += 1;
         requestAnimationFrame(game);
-
     }
     game();
+}
+
+/**
+ * creates balls
+ * 
+ * @param n is the number of balls to generate
+ */
+function makeBalls(n) {
+    balls = [];
+    for (var i = 0; i < n; ++i) {
+        balls.push(new Ball());
+        balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+    }
+}
+
+/**
+ * resets the game
+ */
+function reset() {
+    hud = new HUD(canvas.width, canvas.height);
+    makeBalls(numOfBalls);
 }
