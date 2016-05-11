@@ -24,7 +24,6 @@ function Ball() {
 
     this.initSpd = 2;
     this.speedDelta = 1;
-    this.maxSpeed = 15;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
     this.velocity = calcInitialVelocity(this.initSpd);
@@ -77,8 +76,6 @@ function Ball() {
     this.increaseSpeed = function () {
         if (this.velocity.x > 0) {
             this.velocity.x += this.speedDelta;
-        } else if (this.velocity.x === Math.abs(this.maxSpeed)) {
-            //max speed reached
         } else {
             this.velocity.x -= this.speedDelta;
         }
@@ -102,11 +99,9 @@ function Ball() {
         }
 
         ctx.strokeStyle = ctx.fillStyle = this.colour;
-
         drawCircle(this.position.x, this.position.y, this.radius, ctx);
 
         this.move();
-
 
 
         /**
