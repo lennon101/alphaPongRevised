@@ -25,6 +25,9 @@ var frame = 0;
  */
 socket.on('getPlayerNumber', function (msg) {
     player = msg;
+    if (player > 2) {
+        play = true;
+    }
     console.log(player);
 });
 
