@@ -8,7 +8,7 @@
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
-var numOfBalls = 1;
+var numOfBalls = 10;
 var canvas = document.getElementById("pongCanvas");
 var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
@@ -209,16 +209,28 @@ window.onload = function () {
                     balls[i].draw(ctx);
 
                     if (balls[i].position.x >= canvas.width) {
-                        hud.message = "Player 1 won"
-                        hud.scores.p1 += 1;
-                        socket.emit("hud", hud);
-                        makeBalls();
+                        if (balls.length === 1) {
+                            hud.message = "Player 1 won"
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
+                            makeBalls();
+                        } else {
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
+                            balls.splice(i,1);
+                        }
 
                     } else if (balls[i].position.x <= 0) {
-                        hud.message = "Player 2 won"
-                        hud.scores.p2 += 1;
-                        socket.emit("hud", hud);
-                        makeBalls();
+                        if (balls.length === 1) {
+                            hud.message = "Player 2 won"
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
+                            makeBalls();
+                        } else {
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
+                            balls.splice(i,1);
+                        }
 
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY(1);
