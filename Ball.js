@@ -30,8 +30,7 @@ function Ball() {
     this.velocity = calcInitialVelocity(this.initSpd);
     this.colour = "#FFF";
     this.trailColour = [255, 0, 255];
-    this.lineWidth = 5;
-    this.radius = 4;
+    this.radius = 5;
     
     this.forceBallLeft = function(){
         if (this.velocity.x > 0){
@@ -96,14 +95,14 @@ function Ball() {
         } else {
             this.trailColour = [this.trailColour[0] + 5, 0, this.trailColour[2] - 5];
         }
+        
         ctx.strokeStyle = ctx.fillStyle = ["rgb(", this.trailColour[0], ",", this.trailColour[1], ",", this.trailColour[2], ")"].join("");
         for (var i = 0; i < this.trail.x.length; i++) {
-            drawCircle(this.trail.x[i], this.trail.y[i], i / this.radius, ctx);
+            drawCircle(this.trail.x[i], this.trail.y[i], i / (this.radius - 2), ctx);
         }
 
         ctx.strokeStyle = ctx.fillStyle = this.colour;
 
-        ctx.lineWidth = this.lineWidth;
         drawCircle(this.position.x, this.position.y, this.radius, ctx);
 
         this.move();
@@ -122,7 +121,6 @@ function Ball() {
             ctx.beginPath();
             ctx.arc(x, y, r, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.stroke();
         }
     };
 }

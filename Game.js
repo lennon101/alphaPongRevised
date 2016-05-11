@@ -250,6 +250,8 @@ window.onload = function () {
 
 /**
  * creates balls
+ * 
+ * @param n is the number of balls to generate
  */
 function makeBalls(n) {
     balls = [];
