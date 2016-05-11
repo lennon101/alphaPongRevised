@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
             log("player 1 or 2 has disconected, halting game");
         }
         activeClients.splice(activeClients.indexOf(socket.id), 1);
-        log("active clients: " + activeClients);
+        log("active clients: " + activeClients.length);
 
     });
 

@@ -24,10 +24,12 @@ function Ball() {
 
     this.initSpd = 2;
     this.speedDelta = 1;
+    this.maxSpeed = 15;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
     this.velocity = calcInitialVelocity(this.initSpd);
     this.colour = "#FFF";
+    this.trailColour = [0, 0, 255];
     this.lineWidth = 5;
     this.radius = 4;
 
@@ -60,12 +62,17 @@ function Ball() {
 
     /**
      * increases the speed of the ball
+     *"#"+(155).toString(16)+(102).toString(16)+(102).toString(16);
      */
     this.increaseSpeed = function () {
-        if (this.velocity.x > 1) {
+        if (this.velocity.x > 0) {
             this.velocity.x += this.speedDelta;
+            this.trailColour = [this.trailColour[0] + 17, 0, this.trailColour[2] - 17];
+        } else if (this.velocity.x === Math.abs(this.maxSpeed)) {
+            //max speed reached
         } else {
             this.velocity.x -= this.speedDelta;
+            this.trailColour = [this.trailColour[0] + 17, 0, this.trailColour[2] - 17];
         }
     };
 
@@ -75,16 +82,20 @@ function Ball() {
      * @param ctx the context of the canvas
      */
     this.draw = function (ctx) {
-        ctx.strokeStyle = this.colour;
-        ctx.fillStyle = this.colour;
+
+        ctx.strokeStyle = ctx.fillStyle = ["rgb(", this.trailColour[0], ",", this.trailColour[1], ",", this.trailColour[2], ")"].join("");
+        for (var i = 0; i < this.trail.x.length; i++) {
+            drawCircle(this.trail.x[i], this.trail.y[i], i / this.radius, ctx);
+        }
+
+        ctx.strokeStyle = ctx.fillStyle = this.colour;
+
         ctx.lineWidth = this.lineWidth;
         drawCircle(this.position.x, this.position.y, this.radius, ctx);
 
         this.move();
-        for (var i = 0; i < this.trail.x.length; i++) {
-            drawCircle(this.trail.x[i], this.trail.y[i], i / this.radius, ctx);
 
-        }
+
 
         /**
          * local circle drawing function, doesn't need public access

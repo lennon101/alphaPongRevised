@@ -43,6 +43,7 @@ socket.on("ball", function (ball) {
         for (var i = 0; i < ball.length; i++) {
             balls[i].position = ball[i].position;
             balls[i].velocity = ball[i].velocity;
+            balls[i].trailColour = ball[i].trailColour;
         }
     }
 
@@ -208,13 +209,13 @@ window.onload = function () {
                     balls[i].draw(ctx);
 
                     if (balls[i].position.x >= canvas.width) {
-                        hud.message = "Player 2 Lost"
+                        hud.message = "Player 1 won"
                         hud.scores.p1 += 1;
                         socket.emit("hud", hud);
                         makeBalls();
 
                     } else if (balls[i].position.x <= 0) {
-                        hud.message = "Player 1 Lost"
+                        hud.message = "Player 2 won"
                         hud.scores.p2 += 1;
                         socket.emit("hud", hud);
                         makeBalls();
@@ -227,32 +228,29 @@ window.onload = function () {
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
-
             }
         }
         frame += 1;
         requestAnimationFrame(game);
     }
     game();
-
-
 }
 
-    /**
-     * creates balls
-     */
-    function makeBalls() {
-        balls = [];
-        for (var i = 0; i < numOfBalls; ++i) {
-            balls.push(new Ball());
-            balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
-        }
+/**
+ * creates balls
+ */
+function makeBalls() {
+    balls = [];
+    for (var i = 0; i < numOfBalls; ++i) {
+        balls.push(new Ball());
+        balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
     }
+}
 
-    /**
-     * resets the game
-     */
-    function reset() {
-        hud = new HUD(canvas.width, canvas.height);
-        makeBalls();  
-    }
+/**
+ * resets the game
+ */
+function reset() {
+    hud = new HUD(canvas.width, canvas.height);
+    makeBalls();
+}
