@@ -32,6 +32,18 @@ function Ball() {
     this.trailColour = [0, 0, 255];
     this.lineWidth = 5;
     this.radius = 4;
+    
+    this.forceBallLeft = function(){
+        if (this.velocity.x > 0){
+            this.velocity.x = this.velocity.x*-1;
+        }
+    }
+    
+    this.forceBallRight = function(){
+        if (this.velocity.x < 0){
+            this.velocity.x = this.velocity.x*-1;
+        }
+    }
 
     /**
      * moves the ball in the direction specified by it's velocity vector

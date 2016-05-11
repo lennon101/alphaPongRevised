@@ -27,8 +27,8 @@
             color: white;
         }
     </style>
-    <script src="PowerUpClasses/PowerUp.js"></script>
-    <script src="PowerUpClasses/MultiBall.js"></script>
+    <script src="PowerUp.js"></script>
+    <script src="MultiBall.js"></script>
 </head>
 
 <body>
@@ -40,12 +40,31 @@
         var canvas = document.getElementById("pongCanvas");
         var ctx = canvas.getContext("2d");
         
-        var p = new PowerUp(100, 100, "#FF0000", "F");
+        /**
+         * creates balls
+         */
+        function makeBalls() {
+            balls = [];
+            for (var i = 0; i < numOfBalls; ++i) {
+                balls.push(new Ball());
+                balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+            }
+        }
+        
+        var a = ['a','b','c'];
+        
+        var p = new PowerUp(100, 100, "#FF0000", "P");
         p.draw(ctx);
+        
+        var m = new MultiBall(0,0,a);
+        console.log(a);
+        
         // p.move();
         // var m = new MultiBall();
         // m.draw();
         // m.move();
+        
+        
     </script>
 </body>
 

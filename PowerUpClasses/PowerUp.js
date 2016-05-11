@@ -4,7 +4,7 @@
  * 
  * @param x the x position of the power up
  * @param y the y position of the power up
- * @param colour the colour of the paddle, default is "#00FF00" 
+ * @param colour the colour of the powerup, default is "#00FF00" 
  */
 function PowerUp(x, y, colour, text) {
     this.position = {x: x, y: y};
@@ -60,6 +60,9 @@ function PowerUp(x, y, colour, text) {
         return this.position;
     }
 
+    this.execute = function(){
+        console.log('PowerUp Execute');
+    }
   
     this.hitTest = function (x, y) {
         // tests if x is too far to the left.
