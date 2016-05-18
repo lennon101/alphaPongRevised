@@ -2,7 +2,6 @@
  * PONG REVISED game controller
  *
  *issues:
- * - ball reflection is still off
  */
 //var socket = io("http://121.222.103.50:3000"); 
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
@@ -108,6 +107,13 @@ socket.on("hud", function (newhud) {
  */
 socket.on("pause", function (state) {
     play = state;
+});
+
+/**
+ * controls powerups (expand on this)
+ */
+socket.on("powerUp", function (powerup) {
+    
 });
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 
