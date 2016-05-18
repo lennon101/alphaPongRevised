@@ -14,7 +14,6 @@ function PowerUp(x, y, colour, text) {
     this.strokeLineWidth = 8;
     this.textFont = "bold 20pt classicFont";
 
-
     /**
      * draws the power up
      * 
