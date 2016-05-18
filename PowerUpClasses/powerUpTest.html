@@ -45,18 +45,16 @@
          */
         function makeBalls() {
             balls = [];
-            for (var i = 0; i < numOfBalls; ++i) {
+            for (var i = 0; i < 1; ++i) {
                 balls.push(new Ball());
                 balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
             }
         }
-        
-        var a = ['a','b','c'];
-        
+                
         var p = new PowerUp(100, 100, "#FF0000", "P");
         p.draw(ctx);
         
-        var m = new MultiBall(0,0,a);
+        var m = new MultiBall(0,0, balls);
         console.log(a);
         
         // p.move();
