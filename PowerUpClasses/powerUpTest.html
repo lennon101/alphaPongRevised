@@ -54,9 +54,9 @@
         
         var a = ['a','b','c'];
 
-            var p = new PowerUp(100, 100, "#FF0000", "P");
+            var p = new MultiBall(100, 100, a);
         function game(){
-            p.move();
+            // p.move();
             p.draw(ctx);
         }
         setInterval(game, 5);
