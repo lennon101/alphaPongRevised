@@ -29,6 +29,7 @@
     </style>
     <script src="PowerUp.js"></script>
     <script src="MultiBall.js"></script>
+    <script src="Ball.js"></script>
 </head>
 
 <body>
@@ -53,10 +54,11 @@
         
         var a = ['a','b','c'];
         
-        var p = new PowerUp(100, 100, "#FF0000", "P");
-        p.draw(ctx);
+        //var p = new PowerUp(100, 100, "#FF0000", "P");
+        //p.draw(ctx);
         
-        var m = new MultiBall(0,0,a);
+        var m = new MultiBall(200,200,a);
+        m.draw(ctx);
         console.log(a);
         
         // p.move();

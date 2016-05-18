@@ -10,11 +10,11 @@ function MultiBall(x, y, a) {
 }
 
 MultiBall.prototype = Object.create(PowerUp.prototype, {
-    draw: {
-        value: function () {
-            console.log('MultiBall: draw');
-        }
-    },
+    //draw: {
+        //value: function () {
+        //    console.log('MultiBall: draw');
+        //}
+    //},
 
     execute: {
         value: function () {
