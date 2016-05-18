@@ -108,6 +108,13 @@ socket.on("hud", function (newhud) {
 socket.on("pause", function (state) {
     play = state;
 });
+
+/**
+ * controls powerups (expand on this)
+ */
+socket.on("powerUp", function (powerup) {
+    
+});
 /*---------------------------------------------SOCKET.IO---------------------------------*/
 
 /**

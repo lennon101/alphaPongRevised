@@ -29,6 +29,7 @@
     </style>
     <script src="PowerUp.js"></script>
     <script src="MultiBall.js"></script>
+    <script src="Ball.js"></script>
 </head>
 
 <body>
@@ -50,11 +51,22 @@
                 balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
             }
         }
+<<<<<<< HEAD
                 
         var p = new PowerUp(100, 100, "#FF0000", "P");
         p.draw(ctx);
         
         var m = new MultiBall(0,0, balls);
+=======
+        
+        var a = ['a','b','c'];
+        
+        //var p = new PowerUp(100, 100, "#FF0000", "P");
+        //p.draw(ctx);
+        
+        var m = new MultiBall(200,200,a);
+        m.draw(ctx);
+>>>>>>> 83f92dfa3466b426330aa487af717c8b11a3bbd5
         console.log(a);
         
         // p.move();
