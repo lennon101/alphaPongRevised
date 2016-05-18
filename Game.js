@@ -15,9 +15,9 @@ var hud;
 var ctx;
 var frame = 0;
 
-/*---------------------------------------------SOCKET.IO---------------------------------*/
+/**SOCKET.IO*/
 /**
- * sets up the plasyer number (p1, p2, x)
+ * sets up the player number (p1, p2, x)
  * 
  * listens for the 'getPlayerNumber' command from the server
  * that passes the player's number via the msg variable
@@ -48,7 +48,6 @@ socket.on("ball", function (ball) {
             balls[i].trailColour = ball[i].trailColour;
         }
     }
-
 });
 
 /**
@@ -113,9 +112,9 @@ socket.on("pause", function (state) {
  * controls powerups (expand on this)
  */
 socket.on("powerUp", function (powerup) {
-    
+
 });
-/*---------------------------------------------SOCKET.IO---------------------------------*/
+/**SOCKET.IO */
 
 /**
  * main game function
