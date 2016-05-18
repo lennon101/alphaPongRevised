@@ -7,12 +7,13 @@
  * @param colour the colour of the powerup, default is "#00FF00" 
  */
 function PowerUp(x, y, colour, text) {
-    this.position = { x: x, y: y };
+    this.position = {x: x, y: y};
     this.radius = 25;
     this.colour = colour || '#FF0000';
     this.text = text || "D";
     this.strokeLineWidth = 8;
     this.textFont = "bold 20pt classicFont";
+    this.direction = 1;
 
 
     /**
@@ -21,7 +22,7 @@ function PowerUp(x, y, colour, text) {
      * @param ctx canvas context for drawing power up
      */
     this.draw = function (ctx) {
-        console.log("PowerUp: Draw");
+//        console.log("PowerUp: Draw");
 
         ctx.strokeStyle = this.colour;
         ctx.fillStyle = this.colour;
@@ -42,8 +43,12 @@ function PowerUp(x, y, colour, text) {
      */
     this.move = function () {
         console.log("PowerUp: Move");
-
-        //TO-DO bounce up and down.
+        if (this.position.y <= 0 || this.position.y >= 500){
+            console.log("Power-up Change Direction");
+            this.direction *= -1;
+        }
+        console.log(this.position.y);
+        this.position.y += this.direction;
     };
 
     /**
