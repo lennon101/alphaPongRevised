@@ -15,7 +15,6 @@ function PowerUp(x, y, colour, text) {
     this.textFont = "bold 20pt classicFont";
     this.direction = 1;
 
-
     /**
      * draws the power up
      * 

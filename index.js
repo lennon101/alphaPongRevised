@@ -9,8 +9,6 @@ var paddles = [0, 0];
 var players = { p1: null, p2: null };
 var spectators = [];
 
-//TODO: make it so that refreshing and crap doesnt fuck shit up (keep track of who is player 1 and who is palyer 2)
-
 /**
  * listens for a connection to the server
  */
@@ -103,19 +101,19 @@ io.on('connection', function (socket) {
     socket.on("pause", function (state) {
         io.emit("pause", state);
     });
-    
+
     /**
      * handles the passing of powerups between each client
      */
     socket.on("powerUp", function (powerup) {
         if (players.p1 !== null && players.p2 !== null && players.p1 === socket) {
             //p1 collected a powerup
-            players.p2.emit("powerUp",powerup);
+            players.p2.emit("powerUp", powerup);
         } else if (players.p1 !== null && players.p2 !== null && players.p2 === socket) {
             //p2 collected a powerup
-            players.p1.emit("powerup",powerup);
+            players.p1.emit("powerup", powerup);
         }
-        
+
         if (spectators.length > 0) {
             for (i = 0; i < spectators.length; i++) {
                 spectators[i].emit("powerUp", powerup);
