@@ -1,8 +1,12 @@
-var canvas = document.getElementById("pongCanvas");
 /** 
  * PONG REVISED game controller
  *
  *issues:
+ */
+var canvas = document.getElementById("pongCanvas");
+
+/**
+ * Function encapsulaiton so that clients can't modify the code in their browser
  */
 (function () {
     //var socket = io("http://121.222.103.50:3000"); 
