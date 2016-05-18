@@ -1,37 +1,44 @@
 /**
  * SOCKET.IO server
  */
-var app = require('express')();
-var http = require('http').Server(app);
+var http = require('http').Server();
 var io = require('socket.io')(http);
 var port = 3000;
 var debug = true;
-var activeClients = [];
 var paddles = [0, 0];
+var players = { p1: null, p2: null };
+var spectators = [];
 
-//socket.io keys:
-//socket.emit - emits to only the specified client
-//io.emit - emmits to everyone
-//io.on receives 
-
-//TODO: make it so that refreshing and crap doesnt fuck shit up
+//TODO: make it so that refreshing and crap doesnt fuck shit up (keep track of who is player 1 and who is palyer 2)
 
 /**
  * listens for a connection to the server
  */
 io.on('connection', function (socket) {
 
-    activeClients.push(socket);
-
     /**
      * sends the client their player identifier
      */
-    socket.emit("getPlayerNumber", activeClients.length);
-    log("player " + activeClients.length + " has joined.");
-    if (activeClients.length >= 2) {
+    if (players.p1 === null) {
+        players.p1 = socket;
+        socket.emit("getPlayerNumber", 1);
+        log("player 1 has joined.");
+        if (players.p2 !== null) {
+            log("game commencing");
+            io.emit("play", true);
+        }
+    } else if (players.p2 === null) {
+        players.p2 = socket;
+        socket.emit("getPlayerNumber", 2);
+        log("player 2 has joined.");
         log("game commencing");
         io.emit("play", true);
+    } else {
+        spectators.push(socket);
+        socket.emit("getPlayerNumber", 3);
+        log("spectator has joined.");
     }
+
 
     /**
      * listens for a client disconection and removes them from active clients listen
@@ -39,19 +46,23 @@ io.on('connection', function (socket) {
      * problems: refresshing the page with more than one client connection stuffs everything up
      */
     socket.on('disconnect', function () {
-        if (activeClients.indexOf(socket) === 0 || activeClients.indexOf(socket) === 1) {
-            io.emit("disconection", activeClients.indexOf(socket));
-            log("player 1 or 2 has disconected, halting game");
+        if (socket === players.p1) {
+            io.emit("disconection", 0);
+            players.p1 = null;
+            log("player 1 has disconected, halting game");
+        } else if (socket === players.p2) {
+            io.emit("disconection", 1);
+            players.p2 = null;
+            log("player 2 has disconected, halting game");
+        } else {
+            spectators.splice(spectators.indexOf(socket.id), 1);
         }
-        activeClients.splice(activeClients.indexOf(socket.id), 1);
-        log("active clients: " + activeClients.length);
-
     });
 
     /**
      * listens for the ball objects from player 1 and sends them to all other clients
      */
-    activeClients[0].on("balls", function (balls) {
+    players.p1.on("balls", function (balls) {
         io.emit("ball", balls);
     });
 
@@ -71,19 +82,17 @@ io.on('connection', function (socket) {
      * controls what data is sent to what client
      */
     socket.on("paddles", function (paddle) {
-        if (activeClients.indexOf(socket) === 0) {
+        if (players.p1 !== null && players.p2 !== null && players.p1 === socket) {
             paddles[0] = paddle;
-        } else {
+            players.p2.emit("paddles", [paddles[0]]);
+        } else if (players.p1 !== null && players.p2 !== null && players.p2 === socket) {
             paddles[1] = paddle;
+            players.p1.emit("paddles", [paddles[1]]);
         }
 
-        for (i = 0; i < activeClients.length; i++) {
-            if (i === 0) {
-                activeClients[i].emit("paddles", [paddles[1]]);
-            } else if (i === 1) {
-                activeClients[i].emit("paddles", [paddles[0]]);
-            } else {
-                activeClients[i].emit("paddles", paddles);
+        if (spectators.length > 0) {
+            for (i = 0; i < spectators.length; i++) {
+                spectators[i].emit("paddles", paddles);
             }
         }
     });

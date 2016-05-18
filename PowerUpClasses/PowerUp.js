@@ -7,13 +7,13 @@
  * @param colour the colour of the powerup, default is "#00FF00" 
  */
 function PowerUp(x, y, colour, text) {
-    this.position = {x: x, y: y};
+    this.position = { x: x, y: y };
     this.radius = 25;
     this.colour = colour || '#FF0000';
     this.text = text || "D";
     this.strokeLineWidth = 8;
     this.textFont = "bold 20pt classicFont";
-    
+
     /**
      * draws the power up
      * 
@@ -21,7 +21,7 @@ function PowerUp(x, y, colour, text) {
      */
     this.draw = function (ctx) {
         console.log("PowerUp: Draw");
-        
+
         ctx.strokeStyle = this.colour;
         ctx.fillStyle = this.colour;
         ctx.lineWidth = this.strokeLineWidth;
@@ -30,8 +30,8 @@ function PowerUp(x, y, colour, text) {
         // ctx.fill();
         ctx.stroke();
         ctx.font = this.textFont;
-        ctx.fillText(this.text, this.position.x-8, this.position.y+10);
-        
+        ctx.fillText(this.text, this.position.x - 8, this.position.y + 10);
+
     };
 
     /**
@@ -59,25 +59,25 @@ function PowerUp(x, y, colour, text) {
         return this.position;
     }
 
-    this.execute = function(){
+    this.execute = function () {
         console.log('PowerUp Execute');
     }
-  
+
     this.hitTest = function (x, y) {
         // tests if x is too far to the left.
-        if (x < (this.x-this.radius)){
+        if (x < (this.x - this.radius)) {
             return false;
         }
         // tests if x is too far to the right.
-        if (x > (this.x+this.radius)){
+        if (x > (this.x + this.radius)) {
             return false
         }
         // tests if y is too high.
-        if(y < (this.y-this.radius)){
+        if (y < (this.y - this.radius)) {
             return false;
         }
         // tests if y is too low.
-        if(y > (this.y+this.radius)){
+        if (y > (this.y + this.radius)) {
             return false;
         }
         return true;
