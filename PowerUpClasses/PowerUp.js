@@ -12,7 +12,7 @@ function PowerUp(x, y, colour, text) {
     this.colour = colour || '#FF0000';
     this.text = text || "D";
     this.strokeLineWidth = 8;
-    this.textFont = "bold 20pt classicFont";
+    this.textFont = "15pt classicFont";
     this.direction = 1;
 
     /**

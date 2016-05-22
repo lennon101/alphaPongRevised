@@ -19,6 +19,9 @@ var canvas = document.getElementById("pongCanvas");
     var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
     var hud;
     var ctx;
+    
+    var multiBall;
+    
     var frame = 0;
 
     /**SOCKET.IO*/
@@ -133,6 +136,8 @@ var canvas = document.getElementById("pongCanvas");
         hud.message = "waiting for P2";
         hud.timer = 59;
         hud.draw(ctx);
+       
+        multiBall = new MultiBall(canvas.width/2, canvas.height/2, balls);
 
         /**
          * an event listener for the mouse that controlls the position
@@ -191,13 +196,21 @@ var canvas = document.getElementById("pongCanvas");
          * this function is called every frame
          */
         function game() {
+
+            
             if (play) {
                 //clears canvas
                 ctx.fillStyle = "#000";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                //multiBall.move();
+                //multiBall.draw(ctx);
+                
                 paddles[0].draw(ctx);
                 paddles[1].draw(ctx);
                 hud.draw(ctx);
+                
+                
 
                 //p1 controls game logic
                 if (player === 1) {

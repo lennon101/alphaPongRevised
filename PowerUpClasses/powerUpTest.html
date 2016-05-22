@@ -54,28 +54,14 @@
        
         var a = ['a','b','c'];
 
-            var p = new MultiBall(100, 100, a);
+            var p = new MultiBall(canvas.width / 2, canvas.height / 2, a);
         function game(){
-            // p.move();
+             p.move();
             p.draw(ctx);
+            requestAnimationFrame(game);
         }
-        setInterval(game, 5);
-        
-        
-        
-        
-        
-        //var p = new PowerUp(100, 100, "#FF0000", "P");
-        //p.draw(ctx);
-        var m = new MultiBall(0,0,a);
-        var m = new MultiBall(200,200,a);
-        m.draw(ctx);
-        console.log(a);
-        
-        // p.move();
-        // var m = new MultiBall();
-        // m.draw();
-        // m.move();
+        //setInterval(game, 1);
+        game();
     </script>
 </body>
 

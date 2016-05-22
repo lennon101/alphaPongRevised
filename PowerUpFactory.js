@@ -9,7 +9,7 @@ function PowerUpFactory() {
             powerUp = new MultiBall();
         } else if (randomChance === 2) {
             // create second type of Power up
-            powerUp = new FastBall();
+            //powerUp = new FastBall();
         }
 
         return powerUp;
