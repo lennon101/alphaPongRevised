@@ -1,17 +1,10 @@
-function PowerUpFactory() {
-    this.creatPowerUp = function () {
-        var powerUp;
-        // Adjust this random chance to add more types of power ups.
-        var randomChance = Math.floor((Math.random() * 2) + 1)
-
-        if (randomChance === 1) {
-            // create first type of Power up
-            powerUp = new MultiBall();
-        } else if (randomChance === 2) {
-            // create second type of Power up
-            //powerUp = new FastBall();
-        }
-
-        return powerUp;
+function PowerUpFactory(variables) {
+    var random = Math.floor((Math.random() * 2) + 1);
+    console.log(random);
+    if (random === 1) {
+       return new MultiBall(variables[0][0],variables[0][1],variables[2]);
+    } else {
+        return null;
     }
+    
 }
