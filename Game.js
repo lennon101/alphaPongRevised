@@ -121,8 +121,8 @@ socket.on("pause", function (state) {
 /**
  * controls powerups (expand on this)
  */
-socket.on("powerUp", function (powerup) {
-
+socket.on("powerUp", function (pwrup) {
+    //powerup = pwrup;
 });
 /**SOCKET.IO */
 
@@ -218,7 +218,7 @@ window.onload = function () {
             hud.draw(ctx);
 
             if (powerup !== null) {
-                // emit powerups here
+                socket.emit("powerUp", powerup);
                 powerupOnScreen = true;
                 powerup.move();
                 powerup.draw(ctx);
