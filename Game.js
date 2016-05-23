@@ -204,22 +204,45 @@ var canvas = document.getElementById("pongCanvas");
                     if (frame % 2 === 0) {
                         socket.emit("balls", balls);
                     }
+                    //iterate across all balls in the game frame
                     for (var i = 0; i < balls.length; ++i) {
-                        if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y)) {
-                            balls[i].bounceX();
-                            //test for where on the paddle the ball hit and bounce more in the 'y' direction if it was on the upper or lower thirds
-                            if (paddles[0].getHitPosition(balls[i].position.y) == 2) {
-                                balls[i].bounceY(1)
-                            } else {
-                                balls[i].bounceY(1.5)
+                        
+                        //perform hitTest on both paddles 
+                        for (var paddleNum = 0; paddleNum < 2; ++paddleNum){
+                            ballX = balls[i].position.x;
+                            ballY = balls[i].position.y;
+                            ballXVelocity = balls[i].velocity.x;
+                            
+                            if (paddles[paddleNum].hitTest(ballX, ballY, paddleNum)) { //paddle has been hit by ball
+                                balls[i].bounceX();
+                                //if ball hits on the middle of the paddle then don't want to change y speed at all, 
+                                //else bounce harder in that y direction
+                                if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 2) {
+                                    //do nothing
+                                } else {
+                                    balls[i].bounceY(-2) //negative as don't want to change direction, just speed
+                                }
+                                balls[i].increaseSpeed();
                             }
-                            balls[i].increaseSpeed();
                         }
+                        
+                        // if (paddles[0].hitTest(balls[i].position.x, balls[i].position.y,balls[i].velocity.x)) {
+                            
+                        //     balls[i].bounceX();
+                        //     //if ball hits on the middle of the paddle then bounce in y direction normally, else bounce harder in that y direction
+                        //     if (paddles[0].getHitPosition(balls[i].position.y) == 2) {
+                        //         //do nothing
+                        //     } else {
+                        //         balls[i].bounceY(-2) //negative as don't want to change direction, just speed
+                        //     }
+                        //     balls[i].increaseSpeed();
+                        // }
 
-                        if (paddles[1].hitTest2(balls[i].position.x, balls[i].position.y)) {
-                            balls[i].bounceX();
-                            balls[i].increaseSpeed();
-                        }
+                        //if (paddles[1].hitTest(balls[i].position.x, balls[i].position.y,balls[i].velocity.x)) {
+                        //    balls[i].bounceX();
+                        //    balls[i].increaseSpeed();
+                        //}
+                        
                         balls[i].draw(ctx);
 
                         if (balls[i].position.x >= canvas.width) {

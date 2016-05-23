@@ -57,14 +57,14 @@ function Ball() {
     };
 
     /**
-     * bounce the ball in the x direction 
+     * invert the balls velocity in the x direction 
      */
     this.bounceX = function () {
         this.velocity.x = this.velocity.x * -1;
     };
 
     /**
-     * bounce the ball in the x direction 
+     * invert the balls velocity in the y direction 
      */
     this.bounceY = function (scaler) {
         this.velocity.y = this.velocity.y * -1 * scaler;
