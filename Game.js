@@ -8,11 +8,11 @@ var canvas = document.getElementById("pongCanvas");
 /**
  * Function encapsulaiton so that clients can't modify the code in their browser
  */
-//(function () {
+(function () {
 
 var socket = io("http://10.143.124.1:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
-var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
+var play = false;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
 
 var balls = [];
@@ -127,7 +127,9 @@ socket.on("pause", function (state) {
  * controls powerups (expand on this)
  */
 socket.on("powerUp", function (pwrup) {
-    //powerup = pwrup;
+    powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
+    powerup.position.x = pwrup.position.x;
+    powerup.position.y = pwrup.position.y;
 });
 /**SOCKET.IO */
 
@@ -315,6 +317,7 @@ window.onload = function () {
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
+                powerup = null;
             }
         }
         frame += 1;
@@ -343,4 +346,4 @@ function reset() {
     hud = new HUD(canvas.width, canvas.height);
     makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
 }
-//})();
+})();

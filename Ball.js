@@ -13,8 +13,8 @@ function Ball() {
      */    
     function calcInitialVelocity(spd) {
         //generate random x and y directions 
-        //var xDir = (Math.random() < 0.5) ? -1 : 1;
-        var xDir = -1; 
+        var xDir = (Math.random() < 0.5) ? -1 : 1;
+        //var xDir = -1; 
         var yDir = (Math.random() < 0.5) ? -1 : 1;
         //generate random y speed
         var ySpd = Math.abs(Math.random() * spd + 0.01);
