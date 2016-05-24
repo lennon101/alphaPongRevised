@@ -12,7 +12,7 @@ function PowerUp(x, y, colour, text) {
     this.colour = colour || '#FF0000';
     this.text = text || "D";
     this.strokeLineWidth = 8;
-    this.textFont = "bold 20pt classicFont";
+    this.textFont = "15pt classicFont";
     this.direction = 1;
 
     /**
@@ -41,12 +41,12 @@ function PowerUp(x, y, colour, text) {
      * @param y the y postion of the power up
      */
     this.move = function () {
-        console.log("PowerUp: Move");
+        //console.log("PowerUp: Move");
         if (this.position.y <= 0 || this.position.y >= 500){
-            console.log("Power-up Change Direction");
+            //console.log("Power-up Change Direction");
             this.direction *= -1;
         }
-        console.log(this.position.y);
+      //  console.log(this.position.y);
         this.position.y += this.direction;
     };
 
