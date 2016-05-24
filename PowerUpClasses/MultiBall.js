@@ -14,7 +14,7 @@ MultiBall.prototype = Object.create(PowerUp.prototype, {
     execute: {
         value: function () {
             console.log("MultiBall Execute!");
-            a.push(new Ball());
+            // a.push(new Ball());
         }
     }
 });
