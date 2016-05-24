@@ -52,10 +52,12 @@ socket.on('getPlayerNumber', function (msg) {
  */
 socket.on("ball", function (ball) {
     if (player > 1) {
-        balls = [];
+        while (balls.length < ball.length) {
+            balls.push(new Ball());
+        }
         for (var i = 0; i < ball.length; i++) {
             
-            balls.push(new Ball());
+            //balls.push(new Ball());
             balls[i].position = ball[i].position;
             balls[i].velocity = ball[i].velocity;
             balls[i].trailColour = ball[i].trailColour;
