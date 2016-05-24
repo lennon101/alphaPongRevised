@@ -246,7 +246,7 @@ window.onload = function () {
                             // powerup.execute();
                             powerup = null;
                             powerupOnScreen = false;
-                            makeBalls(5);
+                            makeBalls(5, balls[i].position.x, balls[i].position.y);
                         }
                     }
 
@@ -276,7 +276,7 @@ window.onload = function () {
                             hud.message = "Player 1 won"
                             hud.scores.p1 += 1;
                             socket.emit("hud", hud);
-                            makeBalls(numOfBalls);
+                            makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
                            // hud.scores.p1 += 1;
                            // socket.emit("hud", hud);
@@ -288,7 +288,7 @@ window.onload = function () {
                             hud.message = "Player 2 won"
                             hud.scores.p2 += 1;
                             socket.emit("hud", hud);
-                            makeBalls(numOfBalls);
+                            makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
                            // hud.scores.p2 += 1;
                            // socket.emit("hud", hud);
@@ -315,11 +315,11 @@ window.onload = function () {
  * 
  * @param n is the number of balls to generate
  */
-function makeBalls(n) {
+function makeBalls(n, x, y) {
      balls = [];
     for (var i = 0; i < n; ++i) {
         balls.push(new Ball());
-        balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
+        balls[i].position = { x: x, y: y };
     }
 }
 
@@ -328,6 +328,6 @@ function makeBalls(n) {
  */
 function reset() {
     hud = new HUD(canvas.width, canvas.height);
-    makeBalls(numOfBalls);
+    makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
 }
 //})();
