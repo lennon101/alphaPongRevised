@@ -10,7 +10,7 @@ var canvas = document.getElementById("pongCanvas");
  */
 //(function () {
 
-var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
+var socket = io("http://10.143.124.1:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
