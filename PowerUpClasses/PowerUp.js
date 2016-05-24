@@ -31,7 +31,7 @@ function PowerUp(x, y, colour, text) {
         // ctx.fill();
         ctx.stroke();
         ctx.font = this.textFont;
-        ctx.fillText(this.text, this.position.x - 8, this.position.y + 10);
+        ctx.fillText(this.text, this.position.x - 10, this.position.y + 10);
 
     };
 

@@ -10,12 +10,6 @@ function FastBall(x, y, a) {
 }
 
 FastBall.prototype = Object.create(PowerUp.prototype, {
-    //draw: {
-        //value: function () {
-        //    console.log('FastBall: draw');
-        //}
-    //},
-
     execute: {
         value: function () {
             console.log("FastBall Execute!");
