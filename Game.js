@@ -9,7 +9,7 @@ var canvas = document.getElementById("pongCanvas");
  * Function encapsulaiton so that clients can't modify the code in their browser
  */
 //(function () {
-//var socket = io("http://121.222.103.50:3000"); 
+
 var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
