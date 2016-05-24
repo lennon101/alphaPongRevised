@@ -276,9 +276,9 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls);
                         } else {
-                            hud.scores.p1 += 1;
-                            socket.emit("hud", hud);
-                            balls.splice(i, 1);
+                           // hud.scores.p1 += 1;
+                           // socket.emit("hud", hud);
+                           // balls.splice(i, 1);
                         }
 
                     } else if (balls[i].position.x <= 0) {
@@ -288,9 +288,9 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls);
                         } else {
-                            hud.scores.p2 += 1;
-                            socket.emit("hud", hud);
-                            balls.splice(i, 1);
+                           // hud.scores.p2 += 1;
+                           // socket.emit("hud", hud);
+                           // balls.splice(i, 1);
                         }
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY(1);
@@ -314,7 +314,7 @@ window.onload = function () {
  * @param n is the number of balls to generate
  */
 function makeBalls(n) {
-    // balls = [];
+     balls = [];
     for (var i = 0; i < n; ++i) {
         balls.push(new Ball());
         balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
