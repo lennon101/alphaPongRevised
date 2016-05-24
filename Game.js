@@ -8,11 +8,11 @@ var canvas = document.getElementById("pongCanvas");
 /**
  * Function encapsulaiton so that clients can't modify the code in their browser
  */
-//(function () {
+(function () {
 
-var socket = io("http://localhost:3000"); // change this to server address. only use localhost if running lan
+var socket = io("http://10.143.124.1:3000"); // change this to server address. only use localhost if running lan
 var player = 1;
-var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
+var play = false;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
 
 var balls = [];
@@ -52,7 +52,12 @@ socket.on('getPlayerNumber', function (msg) {
  */
 socket.on("ball", function (ball) {
     if (player > 1) {
+        while (balls.length < ball.length) {
+            balls.push(new Ball());
+        }
         for (var i = 0; i < ball.length; i++) {
+            
+            //balls.push(new Ball());
             balls[i].position = ball[i].position;
             balls[i].velocity = ball[i].velocity;
             balls[i].trailColour = ball[i].trailColour;
@@ -122,7 +127,9 @@ socket.on("pause", function (state) {
  * controls powerups (expand on this)
  */
 socket.on("powerUp", function (pwrup) {
-    //powerup = pwrup;
+    powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
+    powerup.position.x = pwrup.position.x;
+    powerup.position.y = pwrup.position.y;
 });
 /**SOCKET.IO */
 
@@ -240,12 +247,12 @@ window.onload = function () {
                 //iterate across all balls in the game frame
                 for (var i = 0; i < balls.length; ++i) {
                     
-                    if(powerupOnScreen){
+                    if(powerupOnScreen && powerup != null){
                         if(powerup.hitTest(balls[i].position.x, balls[i].position.y)){
                             // alert("Multiball.hitTest() returned true.");
                             // powerup.execute();
                             powerup = null;
-                            powerupOnScreen = false;
+                            //powerupOnScreen = false;
                             makeBalls(5, balls[i].position.x, balls[i].position.y);
                         }
                     }
@@ -260,12 +267,12 @@ window.onload = function () {
                             balls[i].bounceX();
                             //if ball hits on the middle of the paddle then don't want to change y speed at all, 
                             //else bounce harder in that y direction
-                            if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 2) {
-                                //do nothing
-                            } else {
-                                balls[i].bounceY(-2) //negative as don't want to change direction, just speed
+                            if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 1) { //upper third hit
+                                balls[i].increaseYspeed(); 
+                            } else if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 3) { //lower third hit
+                                balls[i].increaseYspeed();
                             }
-                            balls[i].increaseSpeed();
+                            balls[i].increaseXspeed();
                         }
                     }
 
@@ -278,9 +285,13 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
-                           // hud.scores.p1 += 1;
-                           // socket.emit("hud", hud);
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
                             balls.splice(i, 1);
+                            if (balls.length === 1 ) {
+                                //powerup = null;
+                            powerupOnScreen = false;
+                            }
                         }
 
                     } else if (balls[i].position.x <= 0) {
@@ -290,18 +301,23 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
-                           // hud.scores.p2 += 1;
-                           // socket.emit("hud", hud);
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
                             balls.splice(i, 1);
+                             if (balls.length === 1 ) {
+                                //powerup = null;
+                            powerupOnScreen = false;
+                            }
                         }
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
-                        balls[i].bounceY(1);
+                        balls[i].bounceY();
                     }
                 }
             } else {
                 for (var i = 0; i < balls.length; ++i) {
                     balls[i].draw(ctx);
                 }
+                powerup = null;
             }
         }
         frame += 1;
@@ -330,4 +346,4 @@ function reset() {
     hud = new HUD(canvas.width, canvas.height);
     makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
 }
-//})();
+})();
