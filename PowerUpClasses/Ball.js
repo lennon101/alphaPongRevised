@@ -17,7 +17,7 @@ function Ball() {
         var yDir = (Math.random() < 0.5) ? -1 : 1;
         //generate random y speed
         var ySpd = spd * Math.abs(Math.random() * spd);
-        //ensure x speed is always lareger than y speed
+        //ensure x speed is always larger than y speed
         var xSpd = spd * Math.abs((Math.random() * (spd - ySpd)) + ySpd);
         return { x: xDir * xSpd, y: yDir * ySpd };
     }
