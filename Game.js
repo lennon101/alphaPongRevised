@@ -244,6 +244,8 @@ window.onload = function () {
                         if(powerup.hitTest(balls[i].position.x, balls[i].position.y)){
                             // alert("Multiball.hitTest() returned true.");
                             // powerup.execute();
+                            powerup = null;
+                            powerupOnScreen = false;
                             makeBalls(5);
                         }
                     }
