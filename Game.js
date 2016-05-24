@@ -15,6 +15,7 @@ var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
 
+var snd = new Audio("blip.wav");
 var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
 var hud;
@@ -230,7 +231,7 @@ window.onload = function () {
 
                 if (!powerupOnScreen && frame % 2 === 0) {
                     var random = Math.floor((Math.random() * 200) + 1);
-                    console.log(random);
+                    //console.log(random);
                     if (random === 1) {
                         powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
                     }
