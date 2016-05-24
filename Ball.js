@@ -10,22 +10,22 @@ function Ball() {
      * 
      * @param spd the initial speed of the ball 
      * @returns the object velocity containg x and y speeds 
-     */
+     */    
     function calcInitialVelocity(spd) {
         //generate random x and y directions 
         //var xDir = (Math.random() < 0.5) ? -1 : 1;
         var xDir = -1; 
-        
         var yDir = (Math.random() < 0.5) ? -1 : 1;
         //generate random y speed
-        var ySpd = spd * Math.abs(Math.random());
+        var ySpd = Math.abs(Math.random() * spd + 0.01);
         //ensure x speed is always larger than y speed
-        var xSpd = spd * Math.abs((Math.random() * (spd - ySpd)) + ySpd);
+        var xSpd = Math.abs((Math.random() * (spd - ySpd))) + ySpd + spd;
         return { x: xDir * xSpd, y: yDir * ySpd };
     }
 
     this.initSpd = 2;
-    this.speedDelta = 0;
+    this.speedDeltaX = 1;
+    this.speedDeltaY = 1;
     this.position = { x: 0, y: 0 };
     this.trail = { x: new Array(10), y: new Array(10) };
     this.velocity = calcInitialVelocity(this.initSpd);
@@ -62,7 +62,7 @@ function Ball() {
         this.position.y += this.velocity.y;
     };
 
-    /**
+     /**
      * invert the balls velocity in the x direction 
      */
     this.bounceX = function () {
@@ -72,18 +72,34 @@ function Ball() {
     /**
      * invert the balls velocity in the y direction 
      */
-    this.bounceY = function (scaler) {
-        this.velocity.y = this.velocity.y * scaler * -1;
+    this.bounceY = function () {
+        this.velocity.y = this.velocity.y * -1;
     };
+    
+    this.increaseYspeed = function (){
+        if (this.velocity.y < 0) {
+            this.velocity.y -= this.speedDeltaY;
+        } else {
+            this.velocity.y += this.speedDeltaY;
+        }
+    }
+    
+    this.decreaseYspeed = function (){
+        if (this.velocity.x > 0) {
+            this.velocity.x -= this.speedDeltaX;
+        } else {
+            this.velocity.x += this.speedDeltaX;
+        }
+    }
 
     /**
      * increases the speed of the ball
      */
-    this.increaseSpeed = function () {
+    this.increaseXspeed = function () {
         if (this.velocity.x > 0) {
-            this.velocity.x += this.speedDelta;
+            this.velocity.x += this.speedDeltaX;
         } else {
-            this.velocity.x -= this.speedDelta;
+            this.velocity.x -= this.speedDeltaX;
         }
     };
 

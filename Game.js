@@ -260,12 +260,12 @@ window.onload = function () {
                             balls[i].bounceX();
                             //if ball hits on the middle of the paddle then don't want to change y speed at all, 
                             //else bounce harder in that y direction
-                            if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 2) {
-                                //do nothing
-                            } else {
-                                balls[i].bounceY(-2) //negative as don't want to change direction, just speed
+                            if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 1) { //upper third hit
+                                balls[i].increaseYspeed(); 
+                            } else if (paddles[paddleNum].getHitPosition(balls[i].position.y) == 3) { //lower third hit
+                                balls[i].increaseYspeed();
                             }
-                            balls[i].increaseSpeed();
+                            balls[i].increaseXspeed();
                         }
                     }
 
@@ -278,8 +278,8 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
-                           // hud.scores.p1 += 1;
-                           // socket.emit("hud", hud);
+                            hud.scores.p1 += 1;
+                            socket.emit("hud", hud);
                             balls.splice(i, 1);
                         }
 
@@ -290,12 +290,12 @@ window.onload = function () {
                             socket.emit("hud", hud);
                             makeBalls(numOfBalls, canvas.width / 2, canvas.height / 2);
                         } else {
-                           // hud.scores.p2 += 1;
-                           // socket.emit("hud", hud);
+                            hud.scores.p2 += 1;
+                            socket.emit("hud", hud);
                             balls.splice(i, 1);
                         }
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
-                        balls[i].bounceY(1);
+                        balls[i].bounceY();
                     }
                 }
             } else {
