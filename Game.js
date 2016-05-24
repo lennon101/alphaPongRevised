@@ -240,12 +240,12 @@ window.onload = function () {
                 //iterate across all balls in the game frame
                 for (var i = 0; i < balls.length; ++i) {
                     
-                    if(powerupOnScreen){
+                    if(powerupOnScreen && powerup != null){
                         if(powerup.hitTest(balls[i].position.x, balls[i].position.y)){
                             // alert("Multiball.hitTest() returned true.");
                             // powerup.execute();
                             powerup = null;
-                            powerupOnScreen = false;
+                            //powerupOnScreen = false;
                             makeBalls(5, balls[i].position.x, balls[i].position.y);
                         }
                     }
@@ -281,6 +281,10 @@ window.onload = function () {
                             hud.scores.p1 += 1;
                             socket.emit("hud", hud);
                             balls.splice(i, 1);
+                            if (balls.length === 1 ) {
+                                //powerup = null;
+                            powerupOnScreen = false;
+                            }
                         }
 
                     } else if (balls[i].position.x <= 0) {
@@ -293,6 +297,10 @@ window.onload = function () {
                             hud.scores.p2 += 1;
                             socket.emit("hud", hud);
                             balls.splice(i, 1);
+                             if (balls.length === 1 ) {
+                                //powerup = null;
+                            powerupOnScreen = false;
+                            }
                         }
                     } else if (balls[i].position.y >= canvas.height || balls[i].position.y <= 0) {
                         balls[i].bounceY();
