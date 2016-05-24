@@ -15,7 +15,6 @@ var player = 1;
 var play = true;    //THIS SHOULD DEFAULT TO FALSE BUT IS TRUE FOR DEBUGGING W/O SERVER
 var numOfBalls = 1;
 
-var snd = new Audio("blip.wav");
 var balls = [];
 var paddles = [new Paddle(), new Paddle(canvas.width - 20, "#0000FF")];
 var hud;
@@ -198,6 +197,7 @@ window.onload = function () {
      * this function is called every frame
      */
     function game() {
+        
         if (play) {
             //clears canvas
             ctx.fillStyle = "#000";
