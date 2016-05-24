@@ -235,8 +235,17 @@ window.onload = function () {
                         powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
                     }
                 }
+                
                 //iterate across all balls in the game frame
                 for (var i = 0; i < balls.length; ++i) {
+                    
+                    if(powerupOnScreen){
+                        if(powerup.hitTest(balls[i].position.x, balls[i].position.y)){
+                            // alert("Multiball.hitTest() returned true.");
+                            // powerup.execute();
+                            makeBalls(5);
+                        }
+                    }
 
                     //perform hitTest on both paddles 
                     for (var paddleNum = 0; paddleNum < 2; ++paddleNum) {
@@ -304,7 +313,7 @@ window.onload = function () {
  * @param n is the number of balls to generate
  */
 function makeBalls(n) {
-    balls = [];
+    // balls = [];
     for (var i = 0; i < n; ++i) {
         balls.push(new Ball());
         balls[i].position = { x: canvas.width / 2, y: canvas.height / 2 };
