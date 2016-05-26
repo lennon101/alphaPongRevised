@@ -21,6 +21,7 @@ var hud;
 var ctx;
 
 var powerup = null;
+var powerupType = null;
 
 var frame = 0;
 var powerupOnScreen = false;
@@ -240,7 +241,16 @@ window.onload = function () {
                     var random = Math.floor((Math.random() * 200) + 1);
                     //console.log(random);
                     if (random === 1) {
-                        powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
+                        var powerUpRandom = Math.floor(Math.random() * 2) + 1;
+                        if(powerUpRandom === 1){
+                            powerup = new MultiBall(canvas.width / 2, canvas.height / 2, balls);
+                            powerupType = "M";
+                            console.log("MultiBall"); 
+                        }else{
+                            powerup = new FastBall(canvas.width / 2, canvas.height / 2, balls);
+                            powerupType = "F";
+                            console.log("FastBall");
+                        }
                     }
                 }
                 
@@ -249,11 +259,17 @@ window.onload = function () {
                     
                     if(powerupOnScreen && powerup != null){
                         if(powerup.hitTest(balls[i].position.x, balls[i].position.y)){
-                            // alert("Multiball.hitTest() returned true.");
-                            // powerup.execute();
-                            powerup = null;
-                            //powerupOnScreen = false;
-                            makeBalls(5, balls[i].position.x, balls[i].position.y);
+                            if(powerupType === "M"){
+                                powerup = null;
+                                makeBalls(5, balls[i].position.x, balls[i].position.y);
+                            }else{
+                                powerup = null;
+                                powerupOnScreen = false;
+                                balls[i].increaseXspeed();
+                                balls[i].increaseXspeed();
+                                balls[i].increaseXspeed();
+                            }
+                            
                         }
                     }
 

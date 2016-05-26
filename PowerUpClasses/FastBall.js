@@ -5,7 +5,7 @@
  * @param y (description)
  */
 function FastBall(x, y, a) {
-    PowerUp.call(this, x, y, "#FF0000", "M");
+    PowerUp.call(this, x, y, "#00FFFF", "F");
     this.balls = a;
 }
 
