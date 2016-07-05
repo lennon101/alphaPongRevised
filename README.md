@@ -17,10 +17,14 @@ The completed project was able to implement a working two-dimensional table-tenn
 3. Multiplayer support via network connection
     - Player1hosts,player2join
     - Server is an intermediate between the two
-    - Server controls what data is sent where to cut down on lag d) Spectator mode for a 3rd client to connect to
+    - Server controls what data is sent where to cut down on lag 
+    - Spectator mode for a 3rd client to connect to
 4. Simulated ball physics implementing table-tennis-like rules
 5. Game effects
   - PerformancePenalty:Speedofballincreaseswithgameprogress
-  - Comet Tail: Ball has comet tail showing path, the tail increases as the speed increases 6) Scoring system to track game progress
-6. Heads Up Display to display messages to the players
-7. Power ups: Fast-ball:Speedofballtemporarilyincreases b) Multi-ball: ball divides by 3
+  - Comet Tail: Ball has comet tail showing path, the tail increases as the speed increases 
+6. Scoring system to track game progress
+7. Heads Up Display to display messages to the players
+8. Power ups
+    - Fast-ball:Speedofballtemporarilyincreases 
+    - Multi-ball: ball divides by 3
