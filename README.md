@@ -11,16 +11,16 @@ Modularity and portability: The site can run on many different systems and brows
 ##Features Implemented
 
 The completed project was able to implement a working two-dimensional table-tennis arena with multiplayer ability via network connection. The following outlines the extra features that were achieved in the design phase of this project.
-1) A two-dimensional table tennis arena
-2) Event driven, user controlled paddles via keyboard and mouse input
-3) Multiplayer support via network connection
-a) Player1hosts,player2joins
-b) Server is an intermediate between the two
-c) Server controls what data is sent where to cut down on lag d) Spectator mode for a 3rd client to connect to
-4) Simulated ball physics implementing table-tennis-like rules
-5) Game effects
-a) PerformancePenalty:Speedofballincreaseswithgameprogress
-b) Comet Tail: Ball has comet tail showing path, the tail increases as the speed increases 6) Scoring system to track game progress
-7) Heads Up Display to display messages to the players
-8) Power ups
-a) Fast-ball:Speedofballtemporarilyincreases b) Multi-ball: ball divides by 3
+
+1. A two-dimensional table tennis arena
+2. Event driven, user controlled paddles via keyboard and mouse input
+3. Multiplayer support via network connection
+    - Player1hosts,player2join
+    - Server is an intermediate between the two
+    - Server controls what data is sent where to cut down on lag d) Spectator mode for a 3rd client to connect to
+4. Simulated ball physics implementing table-tennis-like rules
+5. Game effects
+  - PerformancePenalty:Speedofballincreaseswithgameprogress
+  - Comet Tail: Ball has comet tail showing path, the tail increases as the speed increases 6) Scoring system to track game progress
+6. Heads Up Display to display messages to the players
+7. Power ups: Fast-ball:Speedofballtemporarilyincreases b) Multi-ball: ball divides by 3
